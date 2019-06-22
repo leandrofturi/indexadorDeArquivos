@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../bibliotecas/arvore.h"
 
+
 tArvore *criaArvore ( ) {
     tArvore *A;
     A = (tArvore*) malloc (sizeof (tArvore));
@@ -17,9 +18,7 @@ void liberaGalho (tGalho *G) {
     }
     liberaGalho (G->esq);
     liberaGalho (G->dir);
-    free (G->P->palavra);
-    free (G->P->posicao);
-    free (G->P);
+    liberaPalavra (G->P);
     free (G);
     G = NULL;
 }

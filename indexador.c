@@ -4,6 +4,11 @@
 #include "bibliotecas/arvore.h"
 
 int main ( ) {
-    if (leituraArquivo ("lorem.txt", 2))
+    tEstruturas *E = inicializaEstrutura ( );
+    alocaEstrutura (E, 2);
+    int l = leituraArquivo ("lorem.txt", E, 2);
+    imprimeEstrutura (E, 2);
+    liberaEstrutura (E, 2);
+    finalizaEstrutura (E);
     return (0);
 }

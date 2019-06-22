@@ -4,8 +4,7 @@
 #include "leitura.h"
 
 typedef struct tGalho tGalho;
-struct tGalho
-{
+struct tGalho {
     tPalavra *P;
     tGalho *esq;
     tGalho *dir;
