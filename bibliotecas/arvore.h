@@ -1,7 +1,7 @@
 #ifndef ARVORE_H
 #define ARVORE_H
 
-#include "leitura.h"
+#include "palavra.h"
 
 typedef struct tGalho tGalho;
 struct tGalho {

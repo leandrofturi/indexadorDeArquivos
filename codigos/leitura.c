@@ -36,36 +36,6 @@ int leituraArquivo (char *caminhoArq, tEstruturas *E, int estrutura) {
     return (0);
 }
 
-tPalavra *criaPalavra (char *palavra, int posicao) {
-    tPalavra *P;
-    P = (tPalavra*) malloc (sizeof (tPalavra));
-    P->palavra = (char*) malloc ((strlen (palavra) + 1) * sizeof (char));
-    strcpy (P->palavra, palavra);
-    P->posicao = (int*) malloc (sizeof (int));
-    P->posicao[0] = posicao;
-    P->ocorrencias = 1;
-
-    return (P);
-}
-
-void liberaPalavra (tPalavra *P) {
-    free (P->palavra);
-    free (P->posicao);
-    free (P);
-}
-
-void colocaPosicao (int novaPosicao, tPalavra *P) {
-    int *nova;
-    nova = (int*) malloc ((P->ocorrencias + 1) * sizeof (int));
-    for (int i = 0; i < P->ocorrencias; i ++) {
-        nova[i] = P->posicao[i];
-    }
-    nova[P->ocorrencias] = novaPosicao;
-    free (P->posicao);
-    P->posicao = nova;
-    P->ocorrencias ++;
-}
-
 tEstruturas *inicializaEstrutura ( ) {
     tEstruturas *E;
     E = (tEstruturas*) malloc (sizeof (tEstruturas));
@@ -84,11 +54,11 @@ void alocaEstrutura (tEstruturas *E, int estrutura) {
 
             case 2:                                                             // Arvore binaria nao balanceada
                 E->arvore = criaArvore ( );
-                E->alocados[estrutura-1] = 1;
+                
             break;
 
             case 3:                                                             // Arvore binaria balanceada (AVL)
-
+				E->balanceada = criaBalanceada ( );
             break;
 
             case 4:                                                             // Arvores de prefixo (TRIE)
@@ -99,6 +69,7 @@ void alocaEstrutura (tEstruturas *E, int estrutura) {
 
             break;
         }
+		E->alocados[estrutura-1] = 1;
     }
 }
 
@@ -111,11 +82,10 @@ void liberaEstrutura (tEstruturas *E, int estrutura) {
 
             case 2:                                                             // Arvore binaria nao balanceada
                 liberaArvore (E->arvore);
-                E->alocados[estrutura-1] = 0;
             break;
 
             case 3:                                                             // Arvore binaria balanceada (AVL)
-
+				liberaBalanceada (E->balanceada);
             break;
 
             case 4:                                                             // Arvores de prefixo (TRIE)
@@ -126,6 +96,7 @@ void liberaEstrutura (tEstruturas *E, int estrutura) {
 
             break;
         }
+		E->alocados[estrutura-1] = 0;
     }
 }
 
@@ -140,7 +111,7 @@ void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura)
         break;
 
         case 3:                                                                 // Arvore binaria balanceada (AVL)
-
+			insereBalanceada (palavra, posicao, E->balanceada);
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
@@ -164,7 +135,7 @@ void imprimeEstrutura (tEstruturas *E, int estrutura) {
         break;
 
         case 3:                                                                 // Arvore binaria balanceada (AVL)
-
+			imprimeBalanceada (E->balanceada);
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)

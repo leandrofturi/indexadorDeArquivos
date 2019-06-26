@@ -4,8 +4,11 @@ BIB      := bibliotecas
 DEBUG    := -g -Wall -I.
 EXE 	 := indexador
 
-main: $(LIX)/encadeada.o $(LIX)/arvore.o $(LIX)/balanceada.o $(LIX)/patricia.o $(LIX)/hash.o $(LIX)/leitura.o $(LIX)/indexador.o
+main: $(LIX)/palavra.o $(LIX)/encadeada.o $(LIX)/arvore.o $(LIX)/balanceada.o $(LIX)/patricia.o $(LIX)/hash.o $(LIX)/leitura.o $(LIX)/indexador.o
 	gcc $(LIX)/*.o -o $(EXE) $(DEBUG)
+
+$(LIX)/palavra.o: $(COD)/palavra.c $(BIB)/palavra.h
+	gcc -c $(DEBUG) "$(COD)/palavra.c" -o "$(LIX)/palavra.o"
 
 $(LIX)/encadeada.o: $(COD)/encadeada.c $(BIB)/encadeada.h
 	gcc -c $(DEBUG) "$(COD)/encadeada.c" -o "$(LIX)/encadeada.o"
