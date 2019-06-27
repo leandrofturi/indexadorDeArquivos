@@ -17,15 +17,15 @@ void liberaBalanceada (tBalanceada *B);
 
 void insereBalanceada (char *palavra, int posicao, tBalanceada *B);
 
+void balanceamento (tBalanceada *B);
+
 int alturaBalanceamento (tBalanceada *B);
+
+int fatorBalanceamento (tBalanceada *B);
 
 void rotacaoEsq (tBalanceada *B);
 
 void rotacaoDir (tBalanceada *B);
-
-void rotacaoDuplaEsq (tBalanceada *B);
-
-void rotacaoDuplaDir (tBalanceada *B);
 
 tPalavra *buscaPalavraBalanceada (char *palavra, tBalanceada *B);
 

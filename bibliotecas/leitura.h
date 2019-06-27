@@ -2,11 +2,13 @@
 #define LEITURA_H
 
 #include "palavra.h"
+#include "encadeada.h"
 #include "arvore.h"
 #include "balanceada.h"
 
 typedef struct tEstruturas tEstruturas;
 struct tEstruturas {
+	tEncadeada *encadeada;
     tArvore *arvore;
     tBalanceada *balanceada;
     int alocados[5];

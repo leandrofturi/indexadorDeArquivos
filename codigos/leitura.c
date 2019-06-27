@@ -49,7 +49,7 @@ void alocaEstrutura (tEstruturas *E, int estrutura) {
     if (E->alocados[(estrutura-1)] != 1) {
         switch (estrutura) {
             case 1:                                                             // Lista encadeada
-
+				E->encadeada = criaEncadeada ( );
             break;
 
             case 2:                                                             // Arvore binaria nao balanceada
@@ -77,7 +77,7 @@ void liberaEstrutura (tEstruturas *E, int estrutura) {
     if (E->alocados[estrutura-1] == 1) {
         switch (estrutura) {
             case 1:                                                             // Lista encadeada
-
+				liberaEncadeada (E->encadeada);
             break;
 
             case 2:                                                             // Arvore binaria nao balanceada
@@ -103,7 +103,7 @@ void liberaEstrutura (tEstruturas *E, int estrutura) {
 void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura) {
     switch (estrutura) {
         case 1:                                                                 // Lista encadeada
-
+			insereEncadeada (palavra, posicao, E->encadeada);
         break;
 
         case 2:                                                                 // Arvore binaria nao balanceada
@@ -127,7 +127,7 @@ void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura)
 void imprimeEstrutura (tEstruturas *E, int estrutura) {
     switch (estrutura) {
         case 1:                                                                 // Lista encadeada
-
+			imprimeEncadeada (E->encadeada);
         break;
 
         case 2:                                                                 // Arvore binaria nao balanceada
