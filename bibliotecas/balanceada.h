@@ -2,13 +2,9 @@
 #define BALANCEADA_H
 
 #include "palavra.h"
+#include "arvore.h"
 
-typedef struct tGalhoAVL tGalhoAVL;
-struct tGalhoAVL {
-    tPalavra *P;
-    tGalhoAVL *esq;
-    tGalhoAVL *dir;
-};
+typedef tGalho tGalhoAVL;
 
 typedef tGalhoAVL* tBalanceada;
 
