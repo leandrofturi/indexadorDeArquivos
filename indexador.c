@@ -7,10 +7,10 @@ int main ( ) {
     tEstruturas *E;
 
 	E = inicializaEstrutura ( );
-    alocaEstrutura (E, 1);
-    int m =leituraArquivo ("lorem.txt", E, 1);
-    imprimeEstrutura (E, 1);
-    liberaEstrutura (E, 1);
+    alocaEstrutura (E, 5);
+    int m =leituraArquivo ("lorem.txt", E, 5);
+    imprimeEstrutura (E, 5);
+    liberaEstrutura (E, 5);
     finalizaEstrutura (E);
 
     return (0);

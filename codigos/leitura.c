@@ -54,7 +54,7 @@ void alocaEstrutura (tEstruturas *E, int estrutura) {
 
             case 2:                                                             // Arvore binaria nao balanceada
                 E->arvore = criaArvore ( );
-                
+
             break;
 
             case 3:                                                             // Arvore binaria balanceada (AVL)
@@ -66,7 +66,7 @@ void alocaEstrutura (tEstruturas *E, int estrutura) {
             break;
 
             case 5:                                                             // Tabela Hash
-
+				E->hash = criaHash ( );
             break;
         }
 		E->alocados[estrutura-1] = 1;
@@ -93,7 +93,7 @@ void liberaEstrutura (tEstruturas *E, int estrutura) {
             break;
 
             case 5:                                                             // Tabela Hash
-
+				liberaHash (E->hash);
             break;
         }
 		E->alocados[estrutura-1] = 0;
@@ -119,7 +119,7 @@ void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura)
         break;
 
         case 5:                                                                 // Tabela Hash
-
+			insereHash (palavra, posicao, E->hash);
         break;
     }
 }
@@ -143,7 +143,7 @@ void imprimeEstrutura (tEstruturas *E, int estrutura) {
         break;
 
         case 5:                                                                 // Tabela Hash
-
+			imprimeHash (E->hash);
         break;
     }
 }

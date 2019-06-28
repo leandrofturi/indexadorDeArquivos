@@ -6,11 +6,15 @@
 #include "arvore.h"
 #include "balanceada.h"
 
+#include "hash.h"
+
 typedef struct tEstruturas tEstruturas;
 struct tEstruturas {
 	tEncadeada *encadeada;
     tArvore *arvore;
     tBalanceada *balanceada;
+	tHash *hash;
+
     int alocados[5];
 };
 
