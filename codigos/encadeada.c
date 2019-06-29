@@ -18,6 +18,9 @@ void liberaCelula (tCelula *C) {
 }
 
 void liberaEncadeada (tEncadeada *E) {
+	if (E == NULL) {
+		return;
+	}
 	tCelula *aux1, *aux2;
 	for (aux1 = E->cabeca; aux1 != NULL; aux1 = aux2) {
 		aux2 = aux1->prox;
@@ -35,9 +38,13 @@ tCelula *insereCelula (char *palavra, int posicao) {
 }
 
 void insereEncadeada (char *palavra, int posicao, tEncadeada *E) {
+	if (E == NULL) {
+		return;
+	}
 	if (E->n == 0) {
 		E->cabeca = insereCelula (palavra, posicao);
 		E->rabo = E->cabeca;
+		E->n ++;
 	}
 	else {
 		tPalavra *busca;
@@ -45,15 +52,18 @@ void insereEncadeada (char *palavra, int posicao, tEncadeada *E) {
 		if (busca == NULL) {
 			E->rabo->prox = insereCelula (palavra, posicao);
 			E->rabo = E->rabo->prox;
+			E->n ++;
 		}
 		else {
 			colocaPosicao (posicao, busca);
 		}
 	}
-	E->n ++;
 }
 
 tPalavra *buscaPalavraEncadeada (char *palavra, tEncadeada *E) {
+	if (E == NULL) {
+		return (NULL);
+	}
 	tCelula *aux;
 	for (aux = E->cabeca; aux != NULL; aux = aux->prox) {
 		if ((strcmp (aux->P->palavra, palavra)) == 0) {
@@ -64,6 +74,9 @@ tPalavra *buscaPalavraEncadeada (char *palavra, tEncadeada *E) {
 }
 
 void imprimeEncadeada (tEncadeada *E) {
+	if (E == NULL) {
+		return;
+	}
 	tCelula *aux;
 	for (aux = E->cabeca; aux != NULL; aux = aux->prox) {
 		printf ("%s ", aux->P->palavra);
@@ -71,5 +84,10 @@ void imprimeEncadeada (tEncadeada *E) {
 }
 
 int nElementosEncadeada (tEncadeada *E) {
-	return (E->n);
+	if (E == NULL) {
+		return (0);
+	}
+	else {
+		return (E->n);
+	}
 }

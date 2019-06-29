@@ -6,14 +6,19 @@ tHash* criaHash ( ) {
 	tHash *H;
 	H = (tHash*) malloc (sizeof (tHash));
 	for (int i = 0; i < M; i ++) {
-		(*(H))[i] = criaEncadeada ( );
+		(*(H)).D[i] = NULL;
 	}
+	H->n = 0;
 	return (H);
+}
+
+void criaDicionario (tDicionario *D, int h) {
+	(*D)[h] = criaEncadeada ( );
 }
 
 void liberaHash (tHash *H) {
 	for (int i = 0; i < M; i ++) {
-		liberaEncadeada ((*(H))[i]);
+		liberaEncadeada ((*(H)).D[i]);
 	}
 	free (H);
 }
@@ -28,22 +33,26 @@ int hash (char *palavra) {
 }
 
 void insereHash (char *palavra, int posicao, tHash *H) {
-	insereEncadeada (palavra, posicao, (*(H))[hash (palavra)]);
+	int h;
+	h = hash (palavra);
+	if ((*(H)).D[h] == NULL) {
+		criaDicionario (&((*(H)).D), h);
+	}
+	insereEncadeada (palavra, posicao, (*(H)).D[h]);
 }
 
 tPalavra *buscaPalavraHash (char *palavra, tHash *H) {
 	tPalavra *P;
-	P = buscaPalavraEncadeada (palavra, (*(H))[hash (palavra)]);
+	P = buscaPalavraEncadeada (palavra, (*(H)).D[hash (palavra)]);
 	return (P);
 }
 
 void imprimeHash (tHash *H) {
 	for (int i = 0; i < M; i ++) {
 		printf ("%d: ", i);
-		imprimeEncadeada ((*(H))[i]);
+		imprimeEncadeada ((*(H)).D[i]);
 		printf ("\n");
 	}
-	medidasHash (H);
 }
 
 void medidasHash (tHash *H) {
@@ -53,9 +62,9 @@ void medidasHash (tHash *H) {
 	colisoes = 0;
 
 	for (int i = 0; i < M; i ++) {
-	 	n = nElementosEncadeada ((*(H))[i]);
+	 	n = nElementosEncadeada ((*(H)).D[i]);
 		nElementos += n;
-		if (n != 0) {
+		if (n > 1) {
 			colisoes += n;
 		}
 	}

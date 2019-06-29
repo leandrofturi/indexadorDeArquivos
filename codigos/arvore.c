@@ -10,7 +10,6 @@ tArvore *criaArvore ( ) {
 	if (A != NULL) {
     	*A = NULL;
 	}
-
     return (A);
 }
 
@@ -74,5 +73,14 @@ void imprimeArvore (tArvore *A) {
         printf ("%s ", (*A)->P->palavra);
         imprimeArvore (&(*A)->esq);
         imprimeArvore (&(*A)->dir);
+    }
+}
+
+int nElementosArvore (tArvore *A) {
+    if ((*A) != NULL) {
+        return (1 + (nElementosArvore (&(*A)->esq)) + (nElementosArvore (&(*A)->dir)));
+    }
+    else {
+        return (0);
     }
 }

@@ -3,21 +3,10 @@
 #include <string.h>
 #include "bibliotecas/balanceada.h"
 
-tBalanceada *criaBalanceada ( ) {
-	return (criaArvore ( ));
-}
-
-void liberaGalhoAVL (tGalhoAVL *G) {
-	liberaGalho (G);
-}
-
-void liberaBalanceada (tBalanceada *B) {
-	liberaArvore (B);
-}
 
 void insereBalanceada (char *palavra, int posicao, tBalanceada *B) {
 	if ((*B) == NULL) {
-		(*B) = (tGalhoAVL*) malloc (sizeof (tGalhoAVL));
+		(*B) = (tGalho*) malloc (sizeof (tGalho));
 		(*B)->P = criaPalavra (palavra, posicao);
         (*B)->esq = NULL;
         (*B)->dir = NULL;
@@ -29,7 +18,7 @@ void insereBalanceada (char *palavra, int posicao, tBalanceada *B) {
         insereBalanceada (palavra, posicao, &(*B)->dir);
     }
 	else {
-		colocaPosicao (posicao, buscaPalavraBalanceada (palavra, B));
+		colocaPosicao (posicao, buscaPalavraArvore (palavra, B));
 	}
 	balanceamento (B);
 }
@@ -69,7 +58,7 @@ int fatorBalanceamento (tBalanceada *B) {
 }
 
 void rotacaoEsq (tBalanceada *B) {
-	tGalhoAVL *aux;
+	tGalho *aux;
 	aux = (*B)->dir;
 	(*B)->dir = aux->esq;
 	aux->esq = (*B);
@@ -77,15 +66,11 @@ void rotacaoEsq (tBalanceada *B) {
 }
 
 void rotacaoDir (tBalanceada *B) {
-	tGalhoAVL *aux;
+	tGalho *aux;
 	aux = (*B)->esq;
 	(*B)->esq = aux->dir;
 	aux->dir = (*B);
 	(*B) = aux;
-}
-
-tPalavra *buscaPalavraBalanceada (char *palavra, tBalanceada *B) {
-	return (buscaPalavraArvore (palavra, B));
 }
 
 void imprimeBalanceada (tBalanceada *B) {

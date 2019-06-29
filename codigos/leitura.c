@@ -46,31 +46,30 @@ tEstruturas *inicializaEstrutura ( ) {
 }
 
 void alocaEstrutura (tEstruturas *E, int estrutura) {
-    if (E->alocados[(estrutura-1)] != 1) {
-        switch (estrutura) {
-            case 1:                                                             // Lista encadeada
-				E->encadeada = criaEncadeada ( );
-            break;
-
-            case 2:                                                             // Arvore binaria nao balanceada
-                E->arvore = criaArvore ( );
-
-            break;
-
-            case 3:                                                             // Arvore binaria balanceada (AVL)
-				E->balanceada = criaBalanceada ( );
-            break;
-
-            case 4:                                                             // Arvores de prefixo (TRIE)
-
-            break;
-
-            case 5:                                                             // Tabela Hash
-				E->hash = criaHash ( );
-            break;
-        }
-		E->alocados[estrutura-1] = 1;
+    if (E->alocados[estrutura-1] != 0) {
+        return;
     }
+    switch (estrutura) {
+        case 1:                                                                 // Lista encadeada
+			E->encadeada = criaEncadeada ( );
+        break;
+
+        case 2:                                                                 // Arvore binaria nao balanceada
+            E->arvore = criaArvore ( );
+        break;
+
+        case 3:                                                                 // Arvore binaria balanceada (AVL)
+			E->balanceada = criaArvore ( );
+        break;
+
+        case 4:                                                                 // Arvores de prefixo (TRIE)
+
+        break;
+        case 5:                                                                 // Tabela Hash
+			E->hash = criaHash ( );
+        break;
+    }
+	E->alocados[estrutura-1] = 1;
 }
 
 void liberaEstrutura (tEstruturas *E, int estrutura) {
@@ -85,7 +84,7 @@ void liberaEstrutura (tEstruturas *E, int estrutura) {
             break;
 
             case 3:                                                             // Arvore binaria balanceada (AVL)
-				liberaBalanceada (E->balanceada);
+				liberaArvore (E->balanceada);
             break;
 
             case 4:                                                             // Arvores de prefixo (TRIE)
@@ -101,6 +100,9 @@ void liberaEstrutura (tEstruturas *E, int estrutura) {
 }
 
 void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura) {
+    if (E->alocados[estrutura-1] == 0) {
+        return;
+    }
     switch (estrutura) {
         case 1:                                                                 // Lista encadeada
 			insereEncadeada (palavra, posicao, E->encadeada);
@@ -125,17 +127,23 @@ void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura)
 }
 
 void imprimeEstrutura (tEstruturas *E, int estrutura) {
+    if (E->alocados[estrutura-1] == 0) {
+        return;
+    }
     switch (estrutura) {
         case 1:                                                                 // Lista encadeada
 			imprimeEncadeada (E->encadeada);
+            printf ("Quantidade de elementos: %d\n", nElementosEncadeada (E->encadeada));
         break;
 
         case 2:                                                                 // Arvore binaria nao balanceada
             imprimeArvore (E->arvore);
+            printf ("Quantidade de elementos: %d\n", nElementosArvore (E->arvore));
         break;
 
         case 3:                                                                 // Arvore binaria balanceada (AVL)
 			imprimeBalanceada (E->balanceada);
+            printf ("Quantidade de elementos: %d\n", nElementosArvore (E->balanceada));
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
@@ -144,6 +152,7 @@ void imprimeEstrutura (tEstruturas *E, int estrutura) {
 
         case 5:                                                                 // Tabela Hash
 			imprimeHash (E->hash);
+            medidasHash (E->hash);
         break;
     }
 }

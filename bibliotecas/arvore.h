@@ -25,4 +25,6 @@ tPalavra *buscaPalavraArvore (char *palavra, tArvore *A);
 
 void imprimeArvore (tArvore *A);
 
+int nElementosArvore (tArvore *A);
+
 #endif
