@@ -63,7 +63,7 @@ void alocaEstrutura (tEstruturas *E, int estrutura) {
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
-
+            E->patricia = criaPatricia ( );
         break;
         case 5:                                                                 // Tabela Hash
 			E->hash = criaHash ( );
@@ -88,7 +88,7 @@ void liberaEstrutura (tEstruturas *E, int estrutura) {
             break;
 
             case 4:                                                             // Arvores de prefixo (TRIE)
-
+                liberaPatricia (E->patricia);
             break;
 
             case 5:                                                             // Tabela Hash
@@ -117,7 +117,7 @@ void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura)
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
-
+            inserePatricia (palavra, posicao, E->patricia);
         break;
 
         case 5:                                                                 // Tabela Hash
@@ -147,7 +147,8 @@ void imprimeEstrutura (tEstruturas *E, int estrutura) {
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
-
+            imprimePatricia (E->patricia);
+            printf ("Quantidade de elementos: %d\n", nElementosPatricia (E->patricia));
         break;
 
         case 5:                                                                 // Tabela Hash

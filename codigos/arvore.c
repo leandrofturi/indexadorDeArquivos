@@ -34,7 +34,7 @@ void liberaArvore (tArvore *A) {
 
 void insereArvore (char *palavra, int posicao, tArvore *A) {
     if ((*A) == NULL) {
-        *A = (tGalho*) malloc (sizeof (tGalho));
+        (*A) = (tGalho*) malloc (sizeof (tGalho));
         (*A)->P = criaPalavra (palavra, posicao);
         (*A)->esq = NULL;
         (*A)->dir = NULL;

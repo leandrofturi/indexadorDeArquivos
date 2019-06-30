@@ -16,12 +16,18 @@ tPalavra *criaPalavra (char *palavra, int posicao) {
 }
 
 void liberaPalavra (tPalavra *P) {
+    if (P == NULL) {
+        return;
+    }
     free (P->palavra);
     free (P->posicao);
     free (P);
 }
 
 void colocaPosicao (int novaPosicao, tPalavra *P) {
+    if (P == NULL) {
+        return;
+    }
     int *nova;
     nova = (int*) malloc ((P->ocorrencias + 1) * sizeof (int));
     for (int i = 0; i < P->ocorrencias; i ++) {
