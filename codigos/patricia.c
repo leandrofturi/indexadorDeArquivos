@@ -33,9 +33,10 @@ void liberaCorpo (tCorpo *C) {
     for (int i = 0; i < R; i ++) {
         liberaCorpo (C->prox[i]);
     }
-    liberaPalavra (C->P);
+    if (C->P != NULL) {
+        liberaPalavra (C->P);
+    }
     free (C);
-    C = NULL;
 }
 
 void liberaPatricia (tPatricia *T) {
@@ -63,96 +64,93 @@ int chave (char letra) {
     }
 }
 
-char letra (int chave) {
-    if ((chave >= 0) && (chave <= 9)) {
-        return (chave + 58);
-    }
-    else if ((chave >= 10) && (chave <= 35)) {
-        return (chave + 65);
-    }
-    else if ((chave >= 36) && (chave <= 61)) {
-        return (chave + 97);
-    }
-    else {
-        return ('#');
-    }
-}
-
 char *caminhaPalavra (char *palavra) {
-    return (palavra + 1);
+    char *aux;
+    aux = (char*) malloc ((strlen (palavra)*(sizeof (char))));
+    for (int i = 0; i < strlen (palavra); i ++) {
+        aux[i] = palavra[i+1];
+    }
+    return (aux);
 }
 
-tPalavra *criaCaminhoPatricia (char *palavra, tCorpo *C) {
-    if (palavra == NULL) {
-        return (NULL);
+void caminhaPatricia (char *palavra, int posicao, int c, tPatricia *T) {
+    if (c == strlen (palavra)) {
+        return;
     }
-    if (C == NULL) {
-        C = criaCorpo ( );
+    if ((*T)[chave (palavra[c])] == NULL) {
+        (*T)[chave (palavra[c])] = criaCorpo ( );
     }
-    if (strlen (palavra) == 1) {
-        return (C->P);
+    if ((c+1) == strlen (palavra)) {
+        if ((*T)[chave (palavra[c])]->P == NULL) {
+            (*T)[chave (palavra[c])]->P = criaPalavra (palavra, posicao);
+        }
+        else {
+            colocaPosicao (posicao, (*T)[chave (palavra[c])]->P);
+        }
     }
     else {
-        char *aux;
-        aux = caminhaPalavra (palavra);
-        return (criaCaminhoPatricia (aux, C->prox[chave (aux[0])]));
+        caminhaPatricia (palavra, posicao, (c+1), &(((*T)[chave (palavra[c])])->prox));
     }
 }
 
 void inserePatricia (char *palavra, int posicao, tPatricia *T) {
+    if (T == NULL) {
+        return;
+    }
     if (palavra == NULL) {
         return;
     }
-    tPalavra *P;
-    P = criaCaminhoPatricia (palavra, (*T)[chave (palavra[0])]);
-    if (P == NULL) {
-        P = criaPalavra (palavra, posicao);
-    }
-    else {
-        colocaPosicao (posicao, P);
-    }
+    caminhaPatricia (palavra, posicao, 0, T);
 }
 
-tPalavra *buscaPalavraPatricia (char *palavra, tPatricia *T) ;
-
-void imprimeCorpo (tCorpo *C) {
-    if (C == NULL) {
-        return;
+tPalavra *buscaPalavraPatricia (char *palavra, tPatricia *T) {
+    if (T == NULL) {
+        return (NULL);
     }
-    printf ("%s ", C->P->palavra);
     for (int i = 0; i < R; i ++) {
-        imprimeCorpo (C->prox[i]);
+        if ((*T)[i] != NULL) {
+            if ((*T)[i]->P != NULL) {
+                if ((strcmp ((*T)[i]->P->palavra, palavra)) == 0) {
+                    return ((*T)[i]->P);
+                }
+            }
+            return (buscaPalavraPatricia (palavra, &(((*T)[i]->prox))));
+        }
     }
+    return (NULL);
 }
 
 void imprimePatricia (tPatricia *T) {
-    if ((*T) == NULL) {
+    if (T == NULL) {
         return;
     }
     for (int i = 0; i < R; i ++) {
-        imprimeCorpo ((*T)[i]);
-    }
-    printf("\n");
-}
-
-int nElementosCorpo (tCorpo *C) {
-    if (C != NULL) {
-        for (int i = 0; i < R; i ++) {
-            if (C->P != NULL) {
-                return (1 + (nElementosCorpo (C->prox[i])));
+        if ((*T)[i] != NULL) {
+            if ((*T)[i]->P != NULL) {
+                printf("%s ", (*T)[i]->P->palavra);
             }
+            imprimePatricia (&(((*T)[i]->prox)));
         }
     }
-    return (0);
+}
+
+void contadorPatricia (int *c, tPatricia *T) {
+    if (T == NULL) {
+        return;
+    }
+    for (int i = 0; i < R; i ++) {
+        if ((*T)[i] != NULL) {
+            if ((*T)[i]->P != NULL) {
+                (*c) ++;
+            }
+            contadorPatricia (c, &(((*T)[i]->prox)));
+        }
+    }
 }
 
 int nElementosPatricia (tPatricia *T) {
-    if ((*T) == NULL) {
-        return (0);
-    }
-    int aux = 0;
-    for (int i = 0; i < R; i ++) {
-        aux += nElementosCorpo ((*T)[i]);
-    }
-    return (aux);
+    int c;
+    c = 0;
+    contadorPatricia (&c, T);
+    return (c);
 }

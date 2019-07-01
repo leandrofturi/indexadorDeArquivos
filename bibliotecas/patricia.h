@@ -24,21 +24,17 @@ void liberaPatricia (tPatricia *T);
 
 int chave (char letra);
 
-char letra (int chave);
-
 char *caminhaPalavra (char *palavra);
 
-tPalavra *criaCaminhoPatricia (char *palavra, tCorpo *C);
+void caminhaPatricia (char *palavra, int posicao, int c, tPatricia *T);
 
 void inserePatricia (char *palavra, int posicao, tPatricia *T);
 
 tPalavra *buscaPalavraPatricia (char *palavra, tPatricia *T);
 
-void imprimeCorpo (tCorpo *C);
-
 void imprimePatricia (tPatricia *T);
 
-int nElementosCorpo (tCorpo *C);
+void contadorPatricia (int *c, tPatricia *T);
 
 int nElementosPatricia (tPatricia *T);
 

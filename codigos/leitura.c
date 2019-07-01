@@ -133,22 +133,22 @@ void imprimeEstrutura (tEstruturas *E, int estrutura) {
     switch (estrutura) {
         case 1:                                                                 // Lista encadeada
 			imprimeEncadeada (E->encadeada);
-            printf ("Quantidade de elementos: %d\n", nElementosEncadeada (E->encadeada));
+            printf ("\nQuantidade de elementos: %d\n", nElementosEncadeada (E->encadeada));
         break;
 
         case 2:                                                                 // Arvore binaria nao balanceada
             imprimeArvore (E->arvore);
-            printf ("Quantidade de elementos: %d\n", nElementosArvore (E->arvore));
+            printf ("\nQuantidade de elementos: %d\n", nElementosArvore (E->arvore));
         break;
 
         case 3:                                                                 // Arvore binaria balanceada (AVL)
 			imprimeBalanceada (E->balanceada);
-            printf ("Quantidade de elementos: %d\n", nElementosArvore (E->balanceada));
+            printf ("\nQuantidade de elementos: %d\n", nElementosArvore (E->balanceada));
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
             imprimePatricia (E->patricia);
-            printf ("Quantidade de elementos: %d\n", nElementosPatricia (E->patricia));
+            printf ("\nQuantidade de elementos: %d\n", nElementosPatricia (E->patricia));
         break;
 
         case 5:                                                                 // Tabela Hash
