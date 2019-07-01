@@ -126,6 +126,45 @@ void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura)
     }
 }
 
+int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra) {
+    if (E->alocados[estrutura-1] == 0) {
+        return (0);
+    }
+    tPalavra *P;
+    switch (estrutura) {
+        case 1:                                                                 // Lista encadeada
+			P = buscaPalavraEncadeada (palavra, E->encadeada);
+        break;
+
+        case 2:                                                                 // Arvore binaria nao balanceada
+            P = buscaPalavraArvore (palavra, E->arvore);
+        break;
+
+        case 3:                                                                 // Arvore binaria balanceada (AVL)
+			P = buscaPalavraArvore (palavra, E->balanceada);
+        break;
+
+        case 4:                                                                 // Arvores de prefixo (TRIE)
+            P = buscaPalavraPatricia (palavra, E->patricia);
+        break;
+
+        case 5:                                                                 // Tabela Hash
+			P = buscaPalavraHash (palavra, E->hash);
+        break;
+    }
+    if (P != NULL) {
+        printf ("PALAVRA = %s ", P->palavra);
+        for (int i = 0; i < P->ocorrencias; i ++) {
+            printf ("POSICOES = %d", P->posicao[i]);
+        }
+        printf ("\n");
+        return (1);
+    }
+    else {
+        return (0);
+    }
+}
+
 void imprimeEstrutura (tEstruturas *E, int estrutura) {
     if (E->alocados[estrutura-1] == 0) {
         return;

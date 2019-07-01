@@ -28,6 +28,8 @@ void alocaEstrutura (tEstruturas *E, int estrutura);
 
 void liberaEstrutura (tEstruturas *E, int estrutura);
 
+int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra);
+
 void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura);
 
 void imprimeEstrutura (tEstruturas *E, int estrutura);
