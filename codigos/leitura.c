@@ -9,6 +9,10 @@ int leituraArquivo (char *caminhoArq, tEstruturas *E, int estrutura) {
     char c, palavraMax[189819];
     FILE *arq;
 
+    printf ("\n################################################\n");
+    printf ("%s\n", caminhoArq);
+    printf ("################################################\n");
+
     arq = fopen (caminhoArq, "r");
     if ((arq == NULL) ||
         (estrutura < 1) || (estrutura > 5)) {
@@ -153,14 +157,18 @@ int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra) {
         break;
     }
     if (P != NULL) {
-        printf ("PALAVRA = %s ", P->palavra);
+        printf ("PALAVRA = %s\n", palavra);
+        printf ("POSICOES = ");
         for (int i = 0; i < P->ocorrencias; i ++) {
-            printf ("POSICOES = %d", P->posicao[i]);
+            printf ("%d ", P->posicao[i]);
         }
         printf ("\n");
+        printf ("OCORRENCIAS = %d\n\n", P->ocorrencias);
         return (1);
     }
     else {
+        printf ("PALAVRA = %s\n", palavra);
+        printf ("NAO ENCONTRADA!\n\n");
         return (0);
     }
 }

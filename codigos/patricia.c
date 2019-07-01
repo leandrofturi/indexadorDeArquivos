@@ -64,15 +64,6 @@ int chave (char letra) {
     }
 }
 
-char *caminhaPalavra (char *palavra) {
-    char *aux;
-    aux = (char*) malloc ((strlen (palavra)*(sizeof (char))));
-    for (int i = 0; i < strlen (palavra); i ++) {
-        aux[i] = palavra[i+1];
-    }
-    return (aux);
-}
-
 void caminhaPatricia (char *palavra, int posicao, int c, tPatricia *T) {
     if (c == strlen (palavra)) {
         return;

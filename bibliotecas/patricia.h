@@ -24,8 +24,6 @@ void liberaPatricia (tPatricia *T);
 
 int chave (char letra);
 
-char *caminhaPalavra (char *palavra);
-
 void caminhaPatricia (char *palavra, int posicao, int c, tPatricia *T);
 
 void inserePatricia (char *palavra, int posicao, tPatricia *T);
