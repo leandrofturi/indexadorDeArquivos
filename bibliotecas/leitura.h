@@ -5,7 +5,7 @@
 #include "encadeada.h"
 #include "arvore.h"
 #include "balanceada.h"
-#include "patricia.h"
+#include "trie.h"
 #include "hash.h"
 
 typedef struct tEstruturas tEstruturas;
@@ -13,7 +13,7 @@ struct tEstruturas {
 	tEncadeada *encadeada;
     tArvore *arvore;
     tBalanceada *balanceada;
-	tPatricia *patricia;
+	tTrie *trie;
 	tHash *hash;
 
     int alocados[5];
