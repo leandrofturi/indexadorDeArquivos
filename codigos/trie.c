@@ -15,9 +15,9 @@ tCorpo *criaCorpo ( ) {
     return (C);
 }
 
-tPatricia *criaPatricia ( ) {
-    tPatricia *T;
-	T = (tPatricia*) malloc (sizeof (tPatricia));
+tTrie *criaTrie ( ) {
+    tTrie *T;
+	T = (tTrie*) malloc (sizeof (tTrie));
     if (T != NULL) {
         for (int i = 0; i < R; i ++) {
     		(*T)[i] = NULL;
@@ -39,7 +39,7 @@ void liberaCorpo (tCorpo *C) {
     free (C);
 }
 
-void liberaPatricia (tPatricia *T) {
+void liberaTrie (tTrie *T) {
     if (T == NULL) {
         return;
     }
@@ -64,7 +64,7 @@ int chave (char letra) {
     }
 }
 
-void caminhaPatricia (char *palavra, int posicao, int c, tPatricia *T) {
+void caminhaTrie (char *palavra, int posicao, int c, tTrie *T) {
     if (c == strlen (palavra)) {
         return;
     }
@@ -80,21 +80,21 @@ void caminhaPatricia (char *palavra, int posicao, int c, tPatricia *T) {
         }
     }
     else {
-        caminhaPatricia (palavra, posicao, (c+1), &(((*T)[chave (palavra[c])])->prox));
+        caminhaTrie (palavra, posicao, (c+1), &(((*T)[chave (palavra[c])])->prox));
     }
 }
 
-void inserePatricia (char *palavra, int posicao, tPatricia *T) {
+void insereTrie (char *palavra, int posicao, tTrie *T) {
     if (T == NULL) {
         return;
     }
     if (palavra == NULL) {
         return;
     }
-    caminhaPatricia (palavra, posicao, 0, T);
+    caminhaTrie (palavra, posicao, 0, T);
 }
 
-tPalavra *buscaPalavraPatricia (char *palavra, tPatricia *T) {
+tPalavra *buscaPalavraTrie (char *palavra, tTrie *T) {
     if (T == NULL) {
         return (NULL);
     }
@@ -105,13 +105,13 @@ tPalavra *buscaPalavraPatricia (char *palavra, tPatricia *T) {
                     return ((*T)[i]->P);
                 }
             }
-            return (buscaPalavraPatricia (palavra, &(((*T)[i]->prox))));
+            return (buscaPalavraTrie (palavra, &(((*T)[i]->prox))));
         }
     }
     return (NULL);
 }
 
-void imprimePatricia (tPatricia *T) {
+void imprimeTrie (tTrie *T) {
     if (T == NULL) {
         return;
     }
@@ -120,12 +120,12 @@ void imprimePatricia (tPatricia *T) {
             if ((*T)[i]->P != NULL) {
                 printf("%s ", (*T)[i]->P->palavra);
             }
-            imprimePatricia (&(((*T)[i]->prox)));
+            imprimeTrie (&(((*T)[i]->prox)));
         }
     }
 }
 
-void contadorPatricia (int *c, tPatricia *T) {
+void contadorTrie (int *c, tTrie *T) {
     if (T == NULL) {
         return;
     }
@@ -134,14 +134,14 @@ void contadorPatricia (int *c, tPatricia *T) {
             if ((*T)[i]->P != NULL) {
                 (*c) ++;
             }
-            contadorPatricia (c, &(((*T)[i]->prox)));
+            contadorTrie (c, &(((*T)[i]->prox)));
         }
     }
 }
 
-int nElementosPatricia (tPatricia *T) {
+int nElementosTrie (tTrie *T) {
     int c;
     c = 0;
-    contadorPatricia (&c, T);
+    contadorTrie (&c, T);
     return (c);
 }
