@@ -1,5 +1,5 @@
-#ifndef PATRICIA_H
-#define PATRICIA_H
+#ifndef TRIE_H
+#define TRIE_H
 
 #include "palavra.h"
 
@@ -11,29 +11,29 @@ struct tCorpo {
     tCorpo* prox[R];
 };
 
-typedef tCorpo* tPatricia[R];
+typedef tCorpo* tTrie[R];
 
 
 tCorpo *criaCorpo ( );
 
-tPatricia *criaPatricia ( );
+tTrie *criaTrie ( );
 
 void liberaCorpo (tCorpo *C);
 
-void liberaPatricia (tPatricia *T);
+void liberaTrie (tTrie *T);
 
 int chave (char letra);
 
-void caminhaPatricia (char *palavra, int posicao, int c, tPatricia *T);
+void caminhaTrie (char *palavra, int posicao, int c, tTrie *T);
 
-void inserePatricia (char *palavra, int posicao, tPatricia *T);
+void insereTrie (char *palavra, int posicao, tTrie *T);
 
-tPalavra *buscaPalavraPatricia (char *palavra, tPatricia *T);
+tPalavra *buscaPalavraTrie (char *palavra, tTrie *T);
 
-void imprimePatricia (tPatricia *T);
+void imprimeTrie (tTrie *T);
 
-void contadorPatricia (int *c, tPatricia *T);
+void contadorTrie (int *c, tTrie *T);
 
-int nElementosPatricia (tPatricia *T);
+int nElementosTrie (tTrie *T);
 
 #endif
