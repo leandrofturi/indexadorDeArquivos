@@ -4,7 +4,7 @@ BIB      := bibliotecas
 DEBUG    := -g -Wall -I.
 EXE 	 := indexador
 
-main: $(LIX)/palavra.o $(LIX)/encadeada.o $(LIX)/arvore.o $(LIX)/balanceada.o $(LIX)/patricia.o $(LIX)/hash.o $(LIX)/leitura.o $(LIX)/indexador.o
+main: $(LIX)/palavra.o $(LIX)/encadeada.o $(LIX)/arvore.o $(LIX)/balanceada.o $(LIX)/trie.o $(LIX)/hash.o $(LIX)/leitura.o $(LIX)/indexador.o
 	gcc $(LIX)/*.o -o $(EXE) $(DEBUG)
 
 $(LIX)/palavra.o: $(COD)/palavra.c $(BIB)/palavra.h
@@ -19,8 +19,8 @@ $(LIX)/arvore.o: $(COD)/arvore.c $(BIB)/arvore.h
 $(LIX)/balanceada.o: $(COD)/balanceada.c $(BIB)/balanceada.h
 	gcc -c $(DEBUG) "$(COD)/balanceada.c" -o "$(LIX)/balanceada.o"
 
-$(LIX)/patricia.o: $(COD)/patricia.c $(BIB)/patricia.h
-	gcc -c $(DEBUG) "$(COD)/patricia.c" -o "$(LIX)/patricia.o"
+$(LIX)/trie.o: $(COD)/trie.c $(BIB)/trie.h
+	gcc -c $(DEBUG) "$(COD)/trie.c" -o "$(LIX)/trie.o"
 
 $(LIX)/hash.o: $(COD)/hash.c $(BIB)/hash.h
 	gcc -c $(DEBUG) "$(COD)/hash.c" -o "$(LIX)/hash.o"
