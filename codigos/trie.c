@@ -64,7 +64,7 @@ int chave (char letra) {
     }
 }
 
-void caminhaTrie (char *palavra, int posicao, int c, tTrie *T) {
+void caminhaTrie (char *palavra, int posicao, int c, int arq, tTrie *T) {
     if (c == strlen (palavra)) {
         return;
     }
@@ -73,25 +73,25 @@ void caminhaTrie (char *palavra, int posicao, int c, tTrie *T) {
     }
     if ((c+1) == strlen (palavra)) {
         if ((*T)[chave (palavra[c])]->P == NULL) {
-            (*T)[chave (palavra[c])]->P = criaPalavra (palavra, posicao);
+            (*T)[chave (palavra[c])]->P = criaPalavra (palavra, posicao, arq);
         }
         else {
-            colocaPosicao (posicao, (*T)[chave (palavra[c])]->P);
+            colocaPosicao (posicao, arq, (*T)[chave (palavra[c])]->P);
         }
     }
     else {
-        caminhaTrie (palavra, posicao, (c+1), &(((*T)[chave (palavra[c])])->prox));
+        caminhaTrie (palavra, posicao, (c+1), arq, &(((*T)[chave (palavra[c])])->prox));
     }
 }
 
-void insereTrie (char *palavra, int posicao, tTrie *T) {
+void insereTrie (char *palavra, int posicao, int arq, tTrie *T) {
     if (T == NULL) {
         return;
     }
     if (palavra == NULL) {
         return;
     }
-    caminhaTrie (palavra, posicao, 0, T);
+    caminhaTrie (palavra, posicao, 0, arq, T);
 }
 
 tPalavra *buscaPalavraTrie (char *palavra, tTrie *T) {
@@ -118,7 +118,7 @@ void imprimeTrie (tTrie *T) {
     for (int i = 0; i < R; i ++) {
         if ((*T)[i] != NULL) {
             if ((*T)[i]->P != NULL) {
-                printf("%s ", (*T)[i]->P->palavra);
+                imprimePalavra ((*T)[i]->P);
             }
             imprimeTrie (&(((*T)[i]->prox)));
         }

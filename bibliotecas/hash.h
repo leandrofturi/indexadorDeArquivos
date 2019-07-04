@@ -22,7 +22,7 @@ void liberaHash (tHash *H);
 
 int hash (char *palavra);
 
-void insereHash (char *palavra, int posicao, tHash *H);
+void insereHash (char *palavra, int posicao, int arq, tHash *H);
 
 tPalavra *buscaPalavraHash (char *palavra, tHash *H);
 

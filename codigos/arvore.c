@@ -32,21 +32,21 @@ void liberaArvore (tArvore *A) {
     free (A);
 }
 
-void insereArvore (char *palavra, int posicao, tArvore *A) {
+void insereArvore (char *palavra, int posicao, int arq, tArvore *A) {
     if ((*A) == NULL) {
         (*A) = (tGalho*) malloc (sizeof (tGalho));
-        (*A)->P = criaPalavra (palavra, posicao);
+        (*A)->P = criaPalavra (palavra, posicao, arq);
         (*A)->esq = NULL;
         (*A)->dir = NULL;
     }
     else if (strcmp ((*A)->P->palavra, palavra) < 0) {
-        insereArvore (palavra, posicao, &(*A)->esq);
+        insereArvore (palavra, posicao, arq, &(*A)->esq);
     }
     else if (strcmp ((*A)->P->palavra, palavra) > 0) {
-        insereArvore (palavra, posicao, &(*A)->dir);
+        insereArvore (palavra, posicao, arq, &(*A)->dir);
     }
     else {
-        colocaPosicao (posicao, buscaPalavraArvore (palavra, A));
+        colocaPosicao (posicao, arq, buscaPalavraArvore (palavra, A));
     }
 }
 
@@ -70,7 +70,7 @@ void imprimeArvore (tArvore *A) {
         return;
     }
     else if ((*A) != NULL) {
-        printf ("%s ", (*A)->P->palavra);
+        imprimePalavra ((*A)->P);
         imprimeArvore (&(*A)->esq);
         imprimeArvore (&(*A)->dir);
     }

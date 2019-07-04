@@ -19,7 +19,7 @@ void liberaGalho (tGalho *G);
 
 void liberaArvore (tArvore *A);
 
-void insereArvore (char *palavra, int posicao, tArvore *A);
+void insereArvore (char *palavra, int posicao, int arq, tArvore *A);
 
 tPalavra *buscaPalavraArvore (char *palavra, tArvore *A);
 

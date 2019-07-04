@@ -7,7 +7,7 @@
 typedef tGalho* tBalanceada;
 
 
-void insereBalanceada (char *palavra, int posicao, tBalanceada *B);
+void insereBalanceada (char *palavra, int posicao, int arq, tBalanceada *B);
 
 void balanceamento (tBalanceada *B);
 

@@ -20,7 +20,7 @@ struct tEstruturas {
 };
 
 
-int leituraArquivo (char *caminhoArq, tEstruturas *E, int estrutura);
+int leituraArquivo (char *caminhoArq, int arq, tEstruturas *E, int estrutura);
 
 tEstruturas *inicializaEstrutura ( );
 
@@ -28,9 +28,11 @@ void alocaEstrutura (tEstruturas *E, int estrutura);
 
 void liberaEstrutura (tEstruturas *E, int estrutura);
 
-int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra);
+int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra, char **arqs);
 
-void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura);
+void buscaPalavra (char *caminhoArq);
+
+void insereEstrutura (char *palavra, int posicao, int arq, tEstruturas *E, int estrutura);
 
 void imprimeEstrutura (tEstruturas *E, int estrutura);
 

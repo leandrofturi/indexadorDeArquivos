@@ -4,21 +4,21 @@
 #include "bibliotecas/balanceada.h"
 
 
-void insereBalanceada (char *palavra, int posicao, tBalanceada *B) {
+void insereBalanceada (char *palavra, int posicao, int arq, tBalanceada *B) {
 	if ((*B) == NULL) {
 		(*B) = (tGalho*) malloc (sizeof (tGalho));
-		(*B)->P = criaPalavra (palavra, posicao);
+		(*B)->P = criaPalavra (palavra, posicao, arq);
         (*B)->esq = NULL;
         (*B)->dir = NULL;
 	}
 	else if (strcmp ((*B)->P->palavra, palavra) > 0) {
-        insereBalanceada (palavra, posicao, &(*B)->esq);
+        insereBalanceada (palavra, posicao, arq, &(*B)->esq);
     }
     else if (strcmp ((*B)->P->palavra, palavra) < 0) {
-        insereBalanceada (palavra, posicao, &(*B)->dir);
+        insereBalanceada (palavra, posicao, arq, &(*B)->dir);
     }
 	else {
-		colocaPosicao (posicao, buscaPalavraArvore (palavra, B));
+		colocaPosicao (posicao, arq, buscaPalavraArvore (palavra, B));
 	}
 	balanceamento (B);
 }
@@ -78,7 +78,7 @@ void imprimeBalanceada (tBalanceada *B) {
         return;
     }
     else if ((*B) != NULL) {
-        printf ("%s ", (*B)->P->palavra);
+        imprimePalavra ((*B)->P);
         imprimeBalanceada (&(*B)->esq);
         imprimeBalanceada (&(*B)->dir);
     }

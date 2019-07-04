@@ -23,9 +23,9 @@ void liberaCelula (tCelula *C);
 
 void liberaEncadeada (tEncadeada *E);
 
-tCelula *insereCelula (char *palavra, int posicao);
+tCelula *insereCelula (char *palavra, int posicao, int arq);
 
-void insereEncadeada (char *palavra, int posicao, tEncadeada *E);
+void insereEncadeada (char *palavra, int posicao, int arq, tEncadeada *E);
 
 tPalavra *buscaPalavraEncadeada (char *palavra, tEncadeada *E);
 

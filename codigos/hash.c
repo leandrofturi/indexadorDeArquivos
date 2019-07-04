@@ -32,13 +32,13 @@ int hash (char *palavra) {
 	return h;
 }
 
-void insereHash (char *palavra, int posicao, tHash *H) {
+void insereHash (char *palavra, int posicao, int arq, tHash *H) {
 	int h;
 	h = hash (palavra);
 	if ((*(H)).D[h] == NULL) {
 		criaDicionario (&((*(H)).D), h);
 	}
-	insereEncadeada (palavra, posicao, (*(H)).D[h]);
+	insereEncadeada (palavra, posicao, arq, (*(H)).D[h]);
 }
 
 tPalavra *buscaPalavraHash (char *palavra, tHash *H) {

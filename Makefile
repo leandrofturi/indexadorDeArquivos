@@ -3,8 +3,9 @@ COD      := codigos
 BIB      := bibliotecas
 DEBUG    := -g -Wall -I.
 EXE 	 := indexador
+AVA 	 := avaliador
 
-main: $(LIX)/palavra.o $(LIX)/encadeada.o $(LIX)/arvore.o $(LIX)/balanceada.o $(LIX)/trie.o $(LIX)/hash.o $(LIX)/leitura.o $(LIX)/indexador.o
+main: $(LIX)/palavra.o $(LIX)/encadeada.o $(LIX)/arvore.o $(LIX)/balanceada.o $(LIX)/trie.o $(LIX)/hash.o $(LIX)/leitura.o $(LIX)/avaliacao.o $(LIX)/indexador.o
 	gcc $(LIX)/*.o -o $(EXE) $(DEBUG)
 
 $(LIX)/palavra.o: $(COD)/palavra.c $(BIB)/palavra.h
@@ -28,8 +29,12 @@ $(LIX)/hash.o: $(COD)/hash.c $(BIB)/hash.h
 $(LIX)/leitura.o: $(COD)/leitura.c $(BIB)/leitura.h
 	gcc -c $(DEBUG) "$(COD)/leitura.c" -o "$(LIX)/leitura.o"
 
+$(LIX)/avaliacao.o: $(COD)/avaliacao.c $(BIB)/avaliacao.h
+	gcc -c $(DEBUG) "$(COD)/avaliacao.c" -o "$(LIX)/avaliacao.o"
+
 $(LIX)/indexador.o: indexador.c
 	gcc -c $(DEBUG) indexador.c -o "$(LIX)/indexador.o"
+
 
 clean:
 	-rm $(LIX)/*.o

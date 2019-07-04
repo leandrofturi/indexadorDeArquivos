@@ -1,26 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
 #include "../bibliotecas/leitura.h"
 
 
-int leituraArquivo (char *caminhoArq, tEstruturas *E, int estrutura) {
+int leituraArquivo (char *caminhoArq, int arq, tEstruturas *E, int estrutura) {
     int nC, nP;
-    char c, palavraMax[189819];
-    FILE *arq;
+    char c, palavraMax[46];
+    FILE *arquivo;
 
-    printf ("\n################################################\n");
-    printf ("%s\n", caminhoArq);
-    printf ("################################################\n");
-
-    arq = fopen (caminhoArq, "r");
-    if ((arq == NULL) ||
+    arquivo = fopen (caminhoArq, "r");
+    if ((arquivo == NULL) ||
         (estrutura < 1) || (estrutura > 5)) {
         return (1);
     }
     else {
         nC = nP = 0;
-        while ((c = fgetc (arq)) != EOF) {
+        while ((c = fgetc (arquivo)) != EOF) {
 		nP ++;
             if (((c >= 'a') && (c <= 'z')) ||
                 ((c >= 'A') && (c <= 'Z')) ||
@@ -31,11 +28,11 @@ int leituraArquivo (char *caminhoArq, tEstruturas *E, int estrutura) {
             else if (nC > 0) {
                 palavraMax[nC] = '\0';
                 nC = 0;
-                insereEstrutura (palavraMax, nP, E, estrutura);
+                insereEstrutura (palavraMax, nP, arq, E, estrutura);
             }
         }
     }
-    fclose (arq);
+    fclose (arquivo);
 
     return (0);
 }
@@ -67,8 +64,9 @@ void alocaEstrutura (tEstruturas *E, int estrutura) {
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
-            E->patricia = criaPatricia ( );
+            E->trie = criaTrie ( );
         break;
+
         case 5:                                                                 // Tabela Hash
 			E->hash = criaHash ( );
         break;
@@ -92,7 +90,7 @@ void liberaEstrutura (tEstruturas *E, int estrutura) {
             break;
 
             case 4:                                                             // Arvores de prefixo (TRIE)
-                liberaPatricia (E->patricia);
+                liberaTrie (E->trie);
             break;
 
             case 5:                                                             // Tabela Hash
@@ -103,34 +101,34 @@ void liberaEstrutura (tEstruturas *E, int estrutura) {
     }
 }
 
-void insereEstrutura (char *palavra, int posicao, tEstruturas *E, int estrutura) {
+void insereEstrutura (char *palavra, int posicao, int arq, tEstruturas *E, int estrutura) {
     if (E->alocados[estrutura-1] == 0) {
         return;
     }
     switch (estrutura) {
         case 1:                                                                 // Lista encadeada
-			insereEncadeada (palavra, posicao, E->encadeada);
+			insereEncadeada (palavra, posicao, arq, E->encadeada);
         break;
 
         case 2:                                                                 // Arvore binaria nao balanceada
-            insereArvore (palavra, posicao, E->arvore);
+            insereArvore (palavra, posicao, arq, E->arvore);
         break;
 
         case 3:                                                                 // Arvore binaria balanceada (AVL)
-			insereBalanceada (palavra, posicao, E->balanceada);
+			insereBalanceada (palavra, posicao, arq, E->balanceada);
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
-            inserePatricia (palavra, posicao, E->patricia);
+            insereTrie (palavra, posicao, arq, E->trie);
         break;
 
         case 5:                                                                 // Tabela Hash
-			insereHash (palavra, posicao, E->hash);
+			insereHash (palavra, posicao, arq, E->hash);
         break;
     }
 }
 
-int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra) {
+int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra, char **arqs) {
     if (E->alocados[estrutura-1] == 0) {
         return (0);
     }
@@ -149,7 +147,7 @@ int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra) {
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
-            P = buscaPalavraPatricia (palavra, E->patricia);
+            P = buscaPalavraTrie (palavra, E->trie);
         break;
 
         case 5:                                                                 // Tabela Hash
@@ -157,20 +155,32 @@ int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra) {
         break;
     }
     if (P != NULL) {
-        printf ("PALAVRA = %s\n", palavra);
-        printf ("POSICOES = ");
-        for (int i = 0; i < P->ocorrencias; i ++) {
-            printf ("%d ", P->posicao[i]);
-        }
-        printf ("\n");
-        printf ("OCORRENCIAS = %d\n\n", P->ocorrencias);
+        imprimeBusca (P, palavra, arqs);
         return (1);
     }
     else {
-        printf ("PALAVRA = %s\n", palavra);
-        printf ("NAO ENCONTRADA!\n\n");
+        imprimeBusca (P, palavra, arqs);
         return (0);
     }
+}
+
+void buscaPalavra (char *caminhoArq) {
+    char palavra[46];
+    int estrutura;
+
+    printf ("Agora, digite a palavra a ser buscada: ");
+    scanf (" %s", palavra);
+
+    tEstruturas *E;
+    E = inicializaEstrutura ( );
+    alocaEstrutura (E, 5);
+    if (leituraArquivo (caminhoArq, 0, E, 5)) {
+        printf ("ERRO!\n");
+    }
+    buscaPalavraEstrutura (E, 5, palavra, &caminhoArq);
+
+    liberaEstrutura (E, 5);
+    finalizaEstrutura (E);
 }
 
 void imprimeEstrutura (tEstruturas *E, int estrutura) {
@@ -194,8 +204,8 @@ void imprimeEstrutura (tEstruturas *E, int estrutura) {
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
-            imprimePatricia (E->patricia);
-            printf ("\nQuantidade de elementos: %d\n", nElementosPatricia (E->patricia));
+            imprimeTrie (E->trie);
+            printf ("\nQuantidade de elementos: %d\n", nElementosTrie (E->trie));
         break;
 
         case 5:                                                                 // Tabela Hash

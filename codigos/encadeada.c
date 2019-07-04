@@ -29,20 +29,20 @@ void liberaEncadeada (tEncadeada *E) {
 	free (E);
 }
 
-tCelula *insereCelula (char *palavra, int posicao) {
+tCelula *insereCelula (char *palavra, int posicao, int arq) {
 	tCelula *C;
 	C = (tCelula*) malloc (sizeof (tCelula));
-	C->P = criaPalavra (palavra, posicao);
+	C->P = criaPalavra (palavra, posicao, arq);
 	C->prox = NULL;
 	return (C);
 }
 
-void insereEncadeada (char *palavra, int posicao, tEncadeada *E) {
+void insereEncadeada (char *palavra, int posicao, int arq, tEncadeada *E) {
 	if (E == NULL) {
 		return;
 	}
 	if (E->n == 0) {
-		E->cabeca = insereCelula (palavra, posicao);
+		E->cabeca = insereCelula (palavra, posicao, arq);
 		E->rabo = E->cabeca;
 		E->n ++;
 	}
@@ -50,12 +50,12 @@ void insereEncadeada (char *palavra, int posicao, tEncadeada *E) {
 		tPalavra *busca;
 		busca = buscaPalavraEncadeada (palavra, E);
 		if (busca == NULL) {
-			E->rabo->prox = insereCelula (palavra, posicao);
+			E->rabo->prox = insereCelula (palavra, posicao, arq);
 			E->rabo = E->rabo->prox;
 			E->n ++;
 		}
 		else {
-			colocaPosicao (posicao, busca);
+			colocaPosicao (posicao, arq, busca);
 		}
 	}
 }
@@ -79,7 +79,7 @@ void imprimeEncadeada (tEncadeada *E) {
 	}
 	tCelula *aux;
 	for (aux = E->cabeca; aux != NULL; aux = aux->prox) {
-		printf ("%s ", aux->P->palavra);
+		imprimePalavra (aux->P);
 	}
 }
 

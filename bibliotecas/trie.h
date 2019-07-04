@@ -24,9 +24,9 @@ void liberaTrie (tTrie *T);
 
 int chave (char letra);
 
-void caminhaTrie (char *palavra, int posicao, int c, tTrie *T);
+void caminhaTrie (char *palavra, int posicao, int c, int arq, tTrie *T);
 
-void insereTrie (char *palavra, int posicao, tTrie *T);
+void insereTrie (char *palavra, int posicao, int arq, tTrie *T);
 
 tPalavra *buscaPalavraTrie (char *palavra, tTrie *T);
 
