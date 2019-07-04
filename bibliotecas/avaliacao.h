@@ -3,6 +3,8 @@
 
 #include "leitura.h"
 
+#define PROBABILIDADE 5
+
 
 char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n);
 

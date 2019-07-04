@@ -8,10 +8,18 @@ int main (int argc, char *argv[]) {
     int n;
     char **caminhos;
 
+    n = 20;
+    caminhos = (char**) malloc (sizeof (char*));
+    caminhos[0] = "lorem.txt";
+    avaliaDesempenho (caminhos, 1, n);
+
+    //free (*caminhos);
+    /*
     if (argc < 1) {
         return (0);
     }
-    ///*
+
+
     caminhos = (char**) malloc ((argc-2) * sizeof (char*));
     n = *(argv[1]);
     for (int i = 0; i < (argc-2); i ++) {
@@ -21,8 +29,8 @@ int main (int argc, char *argv[]) {
     }
     avaliaDesempenho (caminhos, (argc-2), n);
     free (caminhos);
-    //*/
-    //buscaPalavra (argv[1]);
+    */
+    //buscaPalavra (argv[argc-1]);
 
     return (0);
 }

@@ -6,7 +6,7 @@
 #include "../bibliotecas/avaliacao.h"
 
 char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n) {
-    int nC, nP, i, posicoes[(*n)];
+    int nC, i;
     char c, palavraMax[46];
     char **encontradas;
     FILE *arquivo;
@@ -14,17 +14,13 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n) {
     struct timeval semente;
     gettimeofday (&semente, NULL);
     srand ((int) (semente.tv_sec + 1000000 * semente.tv_usec));
-    for (i = 0; i < (*n); i ++) {
-        posicoes[i] = (rand ( )) % 100000;
-    }
 
     i = 0;
     for (int j = 0; j < qtd; j ++) {
         arquivo = fopen (caminhosArq[i], "r");
-        nC = nP = 0;
+        nC = 0;
         encontradas = (char**) malloc ((*n) * sizeof (char*));
         while ((c = fgetc (arquivo)) != EOF) {
-            nP ++;
             if (((c >= 'a') && (c <= 'z')) ||
                 ((c >= 'A') && (c <= 'Z')) ||
                 ((c >= '0') && (c <= '9'))) {
@@ -33,7 +29,7 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n) {
             }
             else if (nC > 0) {
                 palavraMax[nC] = '\0';
-                if (nP == posicoes[i]) {
+                if (((rand ( )) % 100) < PROBABILIDADE) {
                     encontradas[i] = (char*) malloc ((nC+1) * sizeof (char));
                     strcpy (encontradas[i], palavraMax);
                     i ++;
@@ -48,7 +44,7 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n) {
     }
 
     if (i < (*n)) {
-        (*n) = i + 1;
+        (*n) = i;
     }
     return (encontradas);
 }
@@ -94,13 +90,13 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
     char **palavras;
     clock_t t;
     double tempoCarregamento[5], tempoBusca[5];
-
     tEstruturas *E;
-	E = inicializaEstrutura ( );
 
-    if (qtd < 1) {
+    if (qtd < 0) {
         return;
     }
+
+    E = inicializaEstrutura ( );
 
     alocaEstrutura (E, 1);
     alocaEstrutura (E, 2);
@@ -109,17 +105,11 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
     alocaEstrutura (E, 5);
 
     for (int i = 0; i < qtd; i ++) {
-        if (caminhosArq[i] == NULL) {
-            printf ("ERRO! Arquivo não encontrado!\n");
-            return;
-        }
-
         for (int j = 0; j < 5; j ++) {
             t = clock ( );
             leitura[i] = leituraArquivo (caminhosArq[i], i, E, j);
             t = clock ( ) - t;
             tempoCarregamento[i] = ((double) t) / CLOCKS_PER_SEC;
-
             if (leitura[j]) {
                 tempoCarregamento[j] = 0;
             }
@@ -133,10 +123,13 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
         buscaPalavraAnalise (E, i, palavras, n);
         t = clock ( ) - t;
         tempoBusca[i] = ((double) t) / CLOCKS_PER_SEC;
+        if (tempoBusca[i]) {
+            tempoBusca[i] = 0;
+        }
     }
 
     for (int i = 0; i < n; i ++) {
-        //free (palavras[i]);
+        free (palavras[i]);
     }
     free (palavras);
 
@@ -145,9 +138,10 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
     liberaEstrutura (E, 3);
     liberaEstrutura (E, 4);
     liberaEstrutura (E, 5);
+
     finalizaEstrutura (E);
 
     for (int i = 0; i < 5; i ++) {
-        printf("%.f %f\n", tempoBusca[i], tempoCarregamento[i]);
+        //printf ("%f %f\n", tempoBusca[i], tempoCarregamento[i]);
     }
 }

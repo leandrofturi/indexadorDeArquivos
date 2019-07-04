@@ -174,7 +174,7 @@ void buscaPalavra (char *caminhoArq) {
     tEstruturas *E;
     E = inicializaEstrutura ( );
     alocaEstrutura (E, 5);
-    if (leituraArquivo (caminhoArq, 0, E, 5)) {
+    if (leituraArquivo (caminhoArq, 1, E, 5)) {
         printf ("ERRO!\n");
     }
     buscaPalavraEstrutura (E, 5, palavra, &caminhoArq);
