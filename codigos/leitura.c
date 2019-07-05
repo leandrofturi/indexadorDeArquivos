@@ -7,7 +7,7 @@
 
 int leituraArquivo (char *caminhoArq, int arq, tEstruturas *E, int estrutura) {
     int nC, nP;
-    char c, palavraMax[46];
+    char c, palavraMax[PALAVRAMAX];
     FILE *arquivo;
 
     arquivo = fopen (caminhoArq, "r");

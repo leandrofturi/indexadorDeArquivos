@@ -9,7 +9,7 @@ tPalavra *criaPalavra (char *palavra, int posicao, int arq) {
     P->palavra = (char*) malloc ((strlen (palavra) + 1) * sizeof (char));
     strcpy (P->palavra, palavra);
     P->arq = (tArquivo*) malloc (sizeof (tArquivo));
-    P->n = 1;
+    P->qtd = 1;
 
     P->arq[0].posicao = (int*) malloc (sizeof (int));
     P->arq[0].posicao[0] = posicao;
@@ -23,7 +23,7 @@ void liberaPalavra (tPalavra *P) {
         return;
     }
     free (P->palavra);
-    for (int i = 0; i < P->n; i ++) {
+    for (int i = 0; i < P->qtd; i ++) {
         free (P->arq[i].posicao);
     }
     free (P->arq);
@@ -34,35 +34,44 @@ void colocaPosicao (int posicao, int arq, tPalavra *P) {
     if (P == NULL) {
         return;
     }
-    if ((arq < 0) || (arq > P->n)) {
+    if ((arq < 1) || (arq > ((P->qtd)+1))) {
         return;
     }
-    if ((arq == P->n) && (arq > 0)) {
-        adicionaArquivo (P);
+    if ((arq > P->qtd)) {
+        adicionaArquivo (posicao, P);
+        return;
     }
-    int *nova;
-    nova = (int*) malloc ((P->arq[arq].ocorrencias + 1) * sizeof (int));
-    for (int i = 0; i < P->arq[arq].ocorrencias; i ++) {
-        nova[i] = P->arq[arq].posicao[i];
+    else {
+        int *nova;
+        nova = (int*) malloc ((P->arq[arq-1].ocorrencias + 1) * sizeof (int));
+        for (int i = 0; i < P->arq[arq-1].ocorrencias; i ++) {
+            nova[i] = P->arq[arq-1].posicao[i];
+            printf("%d: ", arq-1);
+            printf("%d\n", nova[i]);
+        }
+        nova[P->arq[arq-1].ocorrencias] = posicao;
+        free (P->arq[arq-1].posicao);
+        P->arq[arq-1].posicao = nova;
+        P->arq[arq-1].ocorrencias ++;
     }
-    nova[P->arq[arq].ocorrencias] = posicao;
-    free (P->arq[arq].posicao);
-    P->arq[arq].posicao = nova;
-    P->arq[arq].ocorrencias ++;
 }
 
-void adicionaArquivo (tPalavra *P) {
+void adicionaArquivo (int posicao, tPalavra *P) {
     if (P == NULL) {
         return;
     }
     tArquivo *novo;
-    novo = (tArquivo*) malloc ((P->n + 1) * sizeof (tArquivo));
-    for (int i = 0; i < P->n; i ++) {
+    novo = (tArquivo*) malloc ((P->qtd + 1) * sizeof (tArquivo));
+    for (int i = 0; i < P->qtd; i ++) {
         novo[i] = P->arq[i];
     }
     free (P->arq);
     P->arq = novo;
-    P->n ++;
+    P->qtd ++;
+
+    P->arq[P->qtd].posicao = (int*) malloc (sizeof (int));
+    P->arq[P->qtd].posicao[0] = posicao;
+    P->arq[0].ocorrencias = 1;
 }
 
 void imprimePalavra (tPalavra *P) {
@@ -79,7 +88,7 @@ void imprimeBusca (tPalavra *P, char *palavra, char **arqs) {
     }
     printf ("\n################################################\n");
     imprimePalavra (P);
-    for (int i = 0; i < P->n; i ++) {
+    for (int i = 0; i < P->qtd; i ++) {
         printf ("\n################################################\n");
         printf ("%s\n", arqs[i]);
         printf ("\n");

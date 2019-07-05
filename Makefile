@@ -3,7 +3,6 @@ COD      := codigos
 BIB      := bibliotecas
 DEBUG    := -g -Wall -I.
 EXE 	 := indexador
-AVA 	 := avaliador
 
 main: $(LIX)/palavra.o $(LIX)/encadeada.o $(LIX)/arvore.o $(LIX)/balanceada.o $(LIX)/trie.o $(LIX)/hash.o $(LIX)/leitura.o $(LIX)/avaliacao.o $(LIX)/indexador.o
 	gcc $(LIX)/*.o -o $(EXE) $(DEBUG)

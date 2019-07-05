@@ -7,7 +7,7 @@
 
 char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n) {
     int nC, i;
-    char c, palavraMax[46];
+    char c, palavraMax[PALAVRAMAX];
     char **encontradas;
     FILE *arquivo;
 
@@ -89,7 +89,7 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
     int leitura[5];
     char **palavras;
     clock_t t;
-    double tempoCarregamento[5], tempoBusca[5];
+    double tempoCarregamento[qtd][5], tempoBusca[5];
     tEstruturas *E;
 
     if (qtd < 0) {
@@ -105,20 +105,20 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
     alocaEstrutura (E, 5);
 
     for (int i = 0; i < qtd; i ++) {
-        for (int j = 0; j < 5; j ++) {
+        for (int j = 1; j <= 5; j ++) {
             t = clock ( );
-            leitura[i] = leituraArquivo (caminhosArq[i], i, E, j);
+            leitura[j-1] = leituraArquivo (caminhosArq[i], i, E, j);
             t = clock ( ) - t;
-            tempoCarregamento[i] = ((double) t) / CLOCKS_PER_SEC;
-            if (leitura[j]) {
-                tempoCarregamento[j] = 0;
+            tempoCarregamento[i][j-1] = ((double) t) / CLOCKS_PER_SEC;
+            if (leitura[j-1]) {
+                tempoCarregamento[i][j-1] = 0;
             }
         }
     }
-
+    /*
     palavras = buscaPalavrasAleatorias (caminhosArq, qtd, &n);
 
-    for (int i = 0; i < 5; i ++) {
+    for (int i = 1; i <= 5; i ++) {
         t = clock ( );
         buscaPalavraAnalise (E, i, palavras, n);
         t = clock ( ) - t;
@@ -132,7 +132,7 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
         free (palavras[i]);
     }
     free (palavras);
-
+    */
     liberaEstrutura (E, 1);
     liberaEstrutura (E, 2);
     liberaEstrutura (E, 3);
@@ -141,7 +141,7 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
 
     finalizaEstrutura (E);
 
-    for (int i = 0; i < 5; i ++) {
-        //printf ("%f %f\n", tempoBusca[i], tempoCarregamento[i]);
-    }
+    //for (int i = 0; i < 5; i ++) {
+    //    printf ("%f %f\n", tempoBusca[i], tempoCarregamento[i]);
+    //}
 }

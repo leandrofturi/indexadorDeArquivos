@@ -5,32 +5,38 @@
 #include "bibliotecas/avaliacao.h"
 
 int main (int argc, char *argv[]) {
-    int n;
-    char **caminhos;
-
-    n = 20;
-    caminhos = (char**) malloc (sizeof (char*));
-    caminhos[0] = "lorem.txt";
-    avaliaDesempenho (caminhos, 1, n);
-
-    //free (*caminhos);
-    /*
-    if (argc < 1) {
+    if (argc < 3) {
         return (0);
     }
 
+    char **caminhos;
+    caminhos = (char**) malloc ((argc-1)*(sizeof (char*)));
 
-    caminhos = (char**) malloc ((argc-2) * sizeof (char*));
-    n = *(argv[1]);
-    for (int i = 0; i < (argc-2); i ++) {
-        caminhos[i] = (char*) malloc (((strlen (argv[i+2]))+1)*(sizeof (char)));
-        printf("%s\n", caminhos[i]);
-        strcpy (caminhos[i], argv[i+2]);
+    for (int i = 2; i < argc; i ++) {
+        caminhos[i-2] = argv[i];
     }
-    avaliaDesempenho (caminhos, (argc-2), n);
+    //avaliaDesempenho (caminhos, (argc-2), *(argv[1]));
+    tEstruturas *E;
+
+    E = inicializaEstrutura ( );
+
+    alocaEstrutura (E, 1);
+    alocaEstrutura (E, 2);
+    alocaEstrutura (E, 3);
+    alocaEstrutura (E, 4);
+    alocaEstrutura (E, 5);
+
+int m = leituraArquivo (caminhos[0], 1, E, 1);
+    m = leituraArquivo (caminhos[1], 2, E, 1);
     free (caminhos);
-    */
-    //buscaPalavra (argv[argc-1]);
+
+    liberaEstrutura (E, 1);
+    liberaEstrutura (E, 2);
+    liberaEstrutura (E, 3);
+    liberaEstrutura (E, 4);
+    liberaEstrutura (E, 5);
+
+    finalizaEstrutura (E);
 
     return (0);
 }

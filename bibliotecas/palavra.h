@@ -1,6 +1,8 @@
 #ifndef PALAVRA_H
 #define PALAVRA_H
 
+#define PALAVRAMAX 46
+
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
 typedef struct tArquivo tArquivo;
@@ -13,7 +15,7 @@ typedef struct tPalavra tPalavra;
 struct tPalavra {
     char *palavra;
     tArquivo *arq;
-    int n;
+    int qtd;
 };
 
 
@@ -23,7 +25,7 @@ void liberaPalavra (tPalavra *P);
 
 void colocaPosicao (int posicao, int arq, tPalavra *P);
 
-void adicionaArquivo (tPalavra *P);
+void adicionaArquivo (int posicao, tPalavra *P);
 
 void imprimePalavra (tPalavra *P);
 
