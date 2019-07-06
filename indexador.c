@@ -14,16 +14,21 @@
 int main (int argc, char *argv[]) {
     int n, qtd;
     char **caminhos;
-    caminhos = (char**) malloc ((argc-2)*(sizeof (char*)));
+    caminhos = (char**) malloc ((argc-1)*(sizeof (char*)));
 
     n = atoi (argv[argc-1]); // Quantidade a ser buscada
-    qtd = argc-2; // Quantidade de arquivos
-    for (int i = 1; i < qtd; i ++) {
+    if (n > 0) {
+        qtd = argc-2; // Quantidade de arquivos
+    }
+    else {
+        qtd = argc-1; // Quantidade de arquivos
+    }
+    for (int i = 1; i <= qtd; i ++) {
         caminhos[i-1] = argv[i];
     }
 
     limpaValgrind (caminhos, &qtd, &n); // Limpar flags do valgrind
-    if (argc >= 3) {
+    if (n > 0) {
         avaliaDesempenho (caminhos, qtd, n);
     }
 
@@ -31,7 +36,7 @@ int main (int argc, char *argv[]) {
         buscaPalavra (caminhos, qtd); // Funcao que funciona sozinha.
     }
     free (caminhos);
-    
+
     return (0);
 }
 
