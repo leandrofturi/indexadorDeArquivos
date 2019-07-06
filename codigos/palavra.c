@@ -79,13 +79,7 @@ void imprimePalavra (tPalavra *P) {
 
 // Impressao da palavra buscada pela funcao buscaPalavra (char *caminhoArq).
 // Funcao criada como diversao pelos autores do trabalho.
-void imprimeBusca (tPalavra *P, char *palavra) {
-
-    printf ("\n\n");
-    printf ("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ \n");
-    printf ("░░░░ ░░░░▀█▄▀▄▀██████░▀█▄▀▄▀████▀ \n");
-    printf ("░░░ ░░░░░░░▀█▄█▄███▀░░░▀██▄█▄█▀\n" );
-    printf ("INDEXADOR DE ARQUIVOS\n\n");
+void imprimeBusca (tPalavra *P, char *palavra, char **caminhosArq, int qtd) {
 
     if (P == NULL) {
         printf ("\n################################################\n");
@@ -96,15 +90,21 @@ void imprimeBusca (tPalavra *P, char *palavra) {
     }
     printf ("\n################################################\n");
     imprimePalavra (P);
-    for (int i = 0; i < P->qtd; i ++) {
-        printf ("\n################################################\n");;
-            printf ("QUANTIDADE DE OCORRENCIAS: %d\n", P->arq[i].ocorrencias);
-            if (P->arq[i].ocorrencias > 0) {
-                printf ("POSICOES: ");
-                for (int k = 0; k < P->arq[i].ocorrencias; k ++) {
-                    printf("%d ", P->arq[i].posicao[k]);
+    printf ("\n################################################\n");
+    for (int j = 0; j < P->qtd; j ++) {
+        for (int i = 1; i <= qtd; i ++) {
+            if (P->arq[j].id == i) {
+                printf ("ARQUIVO: %s\n", caminhosArq[i-1]);
+                printf ("QUANTIDADE DE OCORRENCIAS: %d\n", P->arq[j].ocorrencias);
+                if (P->arq[j].ocorrencias > 0) {
+                    printf ("POSICOES: ");
+                    for (int k = 0; k < P->arq[j].ocorrencias; k ++) {
+                        printf ("%d ", P->arq[j].posicao[k]);
+                    }
+                    printf ("\n\n");
                 }
             }
-        printf ("\n\n");
+        }
     }
+    printf ("\n\n");
 }

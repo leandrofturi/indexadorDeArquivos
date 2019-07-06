@@ -70,36 +70,8 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int n) {
 // Funcao sem prints.
 void buscaPalavraAnalise (tEstruturas *E, int estrutura, char **palavras, int n) {
     tPalavra *P;
-    switch (estrutura) {
-        case 1:                                                                 // Lista encadeada
-            for (int i = 0; i < n; i ++) {
-                P = buscaPalavraEncadeada (palavras[i], E->encadeada);
-            }
-        break;
-
-        case 2:                                                                 // Arvore binaria nao balanceada
-            for (int i = 0; i < n; i ++) {
-                P = buscaPalavraArvore (palavras[i], E->arvore);
-            }
-        break;
-
-        case 3:                                                                 // Arvore binaria balanceada (AVL)
-            for (int i = 0; i < n; i ++) {
-                P = buscaPalavraArvore (palavras[i], E->balanceada);
-            }
-        break;
-
-        case 4:                                                                 // Arvores de prefixo (TRIE)
-            for (int i = 0; i < n; i ++) {
-                P = buscaPalavraTrie (palavras[i], E->trie);
-            }
-        break;
-
-        case 5:                                                                 // Tabela Hash
-            for (int i = 0; i < n; i ++) {
-                P = buscaPalavraHash (palavras[i], E->hash);
-            }
-        break;
+    for (int i = 0; i < n; i++) {
+        P = buscaPalavraEstrutura (E, estrutura, palavras[i]);
     }
     if (P == NULL) {
         return;
@@ -110,13 +82,6 @@ void buscaPalavraAnalise (tEstruturas *E, int estrutura, char **palavras, int n)
 }
 // Funcao primaria do trabalho.
 void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
-
-    printf ("\n");
-    printf ("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ \n");
-    printf ("░░░░ ░░░░▀█▄▀▄▀██████░▀█▄▀▄▀████▀ \n");
-    printf ("░░░ ░░░░░░░▀█▄█▄███▀░░░▀██▄█▄█▀\n" );
-    printf ("INDEXADOR DE ARQUIVOS\n\n");
-
     int leitura[5];
     char **palavras;
     clock_t t;
@@ -177,6 +142,7 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
 
     finalizaEstrutura (E);
 
+    printf ("\n");
     printf ("NUMERO DE BUSCAS: %d\n", n);
     printf ("                ENCADEADA   ARVORE      AVL         TRIE        HASH\n");
     printf ("CARREGAMENTO    ");

@@ -35,6 +35,6 @@ void adicionaArquivo (int posicao, int arq, tPalavra *P);
 
 void imprimePalavra (tPalavra *P);
 
-void imprimeBusca (tPalavra *P, char *palavra);
+void imprimeBusca (tPalavra *P, char *palavra, char **caminhosArq, int qtd);
 
 #endif

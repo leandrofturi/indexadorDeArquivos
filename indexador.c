@@ -12,26 +12,26 @@
 #include "bibliotecas/avaliacao.h" // Avaliacao das TADs.
 
 int main (int argc, char *argv[]) {
+    int n, qtd;
+    char **caminhos;
+    caminhos = (char**) malloc ((argc-2)*(sizeof (char*)));
+
+    n = atoi (argv[argc-1]); // Quantidade a ser buscada
+    qtd = argc-2; // Quantidade de arquivos
+    for (int i = 1; i < qtd; i ++) {
+        caminhos[i-1] = argv[i];
+    }
+
+    limpaValgrind (caminhos, &qtd, &n); // Limpar flags do valgrind
     if (argc >= 3) {
-        int n, qtd;
-        char **caminhos;
-
-        n = atoi (argv[argc-1]); // Quantidade a ser buscada
-        qtd = argc-2; // Quantidade de arquivos
-
-        caminhos = (char**) malloc ((argc-2)*(sizeof (char*)));
-        for (int i = 1; i < qtd; i ++) {
-            caminhos[i-1] = argv[i];
-        }
-        limpaValgrind (caminhos, &qtd, &n); // Limpar flags do valgrind
         avaliaDesempenho (caminhos, qtd, n);
-        free (caminhos);
     }
 
     if (argc > 1) {
-        buscaPalavra (argv[1]); // Funcao que funciona sozinha.
+        buscaPalavra (caminhos, qtd); // Funcao que funciona sozinha.
     }
-
+    free (caminhos);
+    
     return (0);
 }
 

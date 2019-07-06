@@ -31,9 +31,9 @@ void alocaEstrutura (tEstruturas *E, int estrutura);
 
 void liberaEstrutura (tEstruturas *E, int estrutura);
 
-int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra, char **arqs);
+tPalavra *buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra);
 
-void buscaPalavra (char *caminhoArq);
+void buscaPalavra (char **caminhosArq, int qtd);
 
 void insereEstrutura (char *palavra, int posicao, int arq, tEstruturas *E, int estrutura);
 

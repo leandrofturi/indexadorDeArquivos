@@ -128,60 +128,81 @@ void insereEstrutura (char *palavra, int posicao, int arq, tEstruturas *E, int e
     }
 }
 
-int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra, char **arqs) {
+tPalavra *buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra) {
     if (E->alocados[estrutura-1] == 0) {
         return (0);
     }
-    tPalavra *P;
     switch (estrutura) {
         case 1:                                                                 // Lista encadeada
-			P = buscaPalavraEncadeada (palavra, E->encadeada);
+			return (buscaPalavraEncadeada (palavra, E->encadeada));
         break;
 
         case 2:                                                                 // Arvore binaria nao balanceada
-            P = buscaPalavraArvore (palavra, E->arvore);
+            return (buscaPalavraArvore (palavra, E->arvore));
         break;
 
         case 3:                                                                 // Arvore binaria balanceada (AVL)
-			P = buscaPalavraArvore (palavra, E->balanceada);
+			return (buscaPalavraArvore (palavra, E->balanceada));
         break;
 
         case 4:                                                                 // Arvores de prefixo (TRIE)
-            P = buscaPalavraTrie (palavra, E->trie);
+            return (buscaPalavraTrie (palavra, E->trie));
         break;
 
         case 5:                                                                 // Tabela Hash
-			P = buscaPalavraHash (palavra, E->hash);
+			return (buscaPalavraHash (palavra, E->hash));
         break;
     }
-    if (P != NULL) {
-        imprimeBusca (P, palavra);
-        return (1);
-    }
-    else {
-        imprimeBusca (P, palavra);
-        return (0);
-    }
+    return (NULL);
 }
 
 // Prototipo de algoritmo de busca.
 // Apos o arquivo ser passado como parametro, e perguntado ao usuario qual palavra ele deseja buscar.
 // Como resposta, e dado a palavra com suas ocorrencias.
-void buscaPalavra (char *caminhoArq) {
-    char palavra[46];
+void buscaPalavra (char **caminhosArq, int qtd) {
 
-    printf ("Agora, digite a palavra a ser buscada: ");
-    scanf (" %s", palavra);
+    printf ("\n\n");
+    printf ("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ \n");
+    printf ("░░░░ ░░░░▀█▄▀▄▀██████░▀█▄▀▄▀████▀ \n");
+    printf ("░░░ ░░░░░░░▀█▄█▄███▀░░░▀██▄█▄█▀\n" );
+    printf ("INDEXADOR DE ARQUIVOS\n\n");
 
+    char estrutura, sair, palavra[PALAVRAMAX];
+    tPalavra *P;
     tEstruturas *E;
-    E = inicializaEstrutura ( );
-    alocaEstrutura (E, 5);
-    if (leituraArquivo (caminhoArq, 1, E, 5)) {
-        printf ("ERRO!\n");
-    }
-    buscaPalavraEstrutura (E, 5, palavra, &caminhoArq);
 
-    liberaEstrutura (E, 5);
+    E = inicializaEstrutura ( );
+    estrutura = sair = '0';
+
+    printf ("Estrutura de armazenamento:\n");
+    printf ("    1: Lista Encadeada\n");
+    printf ("    2: Arvore binaria\n");
+    printf ("    3: Arvore binaria balanceada\n");
+    printf ("    4: Arvore Trie\n");
+    printf ("    5: Tabela Hash\n");
+    printf ("\n");
+    while (((estrutura-48) < 1) || ((estrutura-48) > 5)) {
+        scanf (" %c", &estrutura);
+    }
+    printf ("\n");
+    alocaEstrutura (E, (estrutura-48));
+    printf ("\nCarregando arquivos...\n");
+    for (int i = 0; i < qtd; i ++) {
+        if (leituraArquivo (caminhosArq[i], (i+1), E, (estrutura-48))) {
+            printf ("ERRO! Problema na abertura do arquivo %d.\n", (i+1));
+        }
+    }
+
+    while (sair != 'S') {
+        printf ("Palavra a ser buscada: ");
+        scanf (" %s", palavra);
+        printf ("\n");
+        P = buscaPalavraEstrutura (E, (estrutura-48), palavra);
+        imprimeBusca (P, palavra, caminhosArq, qtd);
+        printf ("Sair? (S/n)\n");
+        scanf (" %c", &sair);
+    }
+    liberaEstrutura (E, (estrutura-48));
     finalizaEstrutura (E);
 }
 
