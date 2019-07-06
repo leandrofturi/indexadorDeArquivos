@@ -6,7 +6,7 @@
 #define PROBABILIDADE 5
 
 
-char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n);
+char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int n);
 
 void buscaPalavraAnalise (tEstruturas *E, int estrutura, char **palavras, int n);
 

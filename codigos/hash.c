@@ -42,6 +42,9 @@ void insereHash (char *palavra, int posicao, int arq, tHash *H) {
 }
 
 tPalavra *buscaPalavraHash (char *palavra, tHash *H) {
+	if (palavra == NULL) {
+		return (NULL);
+	}
 	tPalavra *P;
 	P = buscaPalavraEncadeada (palavra, (*(H)).D[hash (palavra)]);
 	return (P);

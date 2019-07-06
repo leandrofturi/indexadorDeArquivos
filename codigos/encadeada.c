@@ -64,6 +64,9 @@ tPalavra *buscaPalavraEncadeada (char *palavra, tEncadeada *E) {
 	if (E == NULL) {
 		return (NULL);
 	}
+	if (palavra == NULL) {
+		return (NULL);
+	}
 	tCelula *aux;
 	for (aux = E->cabeca; aux != NULL; aux = aux->prox) {
 		if ((strcmp (aux->P->palavra, palavra)) == 0) {

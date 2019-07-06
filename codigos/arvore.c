@@ -54,6 +54,9 @@ tPalavra *buscaPalavraArvore (char *palavra, tArvore *A) {
 	if ((*A) == NULL) {
 		return (NULL);
 	}
+    if (palavra == NULL) {
+		return (NULL);
+	}
     else if (strcmp ((*A)->P->palavra, palavra) > 0) {
         return (buscaPalavraArvore (palavra, &(*A)->esq));
     }

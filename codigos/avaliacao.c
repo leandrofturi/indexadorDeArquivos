@@ -5,7 +5,7 @@
 #include <sys/time.h>
 #include "../bibliotecas/avaliacao.h"
 
-char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n) {
+char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int n) {
     int nC, i;
     char c, palavraMax[PALAVRAMAX];
     char **encontradas;
@@ -15,11 +15,18 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n) {
     gettimeofday (&semente, NULL);
     srand ((int) (semente.tv_sec + 1000000 * semente.tv_usec));
 
+    encontradas = (char**) malloc (n * sizeof (char*));
+    if (encontradas == NULL) {
+        return (NULL);
+    }
+    for (int i = 0; i < n; i++) {
+        encontradas[i] = NULL;
+    }
+
     i = 0;
     for (int j = 0; j < qtd; j ++) {
         arquivo = fopen (caminhosArq[i], "r");
         nC = 0;
-        encontradas = (char**) malloc ((*n) * sizeof (char*));
         while ((c = fgetc (arquivo)) != EOF) {
             if (((c >= 'a') && (c <= 'z')) ||
                 ((c >= 'A') && (c <= 'Z')) ||
@@ -33,7 +40,7 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n) {
                     encontradas[i] = (char*) malloc ((nC+1) * sizeof (char));
                     strcpy (encontradas[i], palavraMax);
                     i ++;
-                    if (i == ((*n)-1)) {
+                    if (i == n) {
                         return (encontradas);
                     }
                 }
@@ -43,9 +50,6 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int *n) {
         fclose (arquivo);
     }
 
-    if (i < (*n)) {
-        (*n) = i;
-    }
     return (encontradas);
 }
 
@@ -89,11 +93,15 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
     int leitura[5];
     char **palavras;
     clock_t t;
-    double tempoCarregamento[qtd][5], tempoBusca[5];
+    double tempoCarregamento[5], tempoBusca[5];
     tEstruturas *E;
 
     if (qtd < 0) {
         return;
+    }
+    for (int i = 0; i < 5; i ++) {
+        tempoCarregamento[i] = 0;
+        tempoBusca[i] = 0;
     }
 
     E = inicializaEstrutura ( );
@@ -109,30 +117,30 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
             t = clock ( );
             leitura[j-1] = leituraArquivo (caminhosArq[i], i, E, j);
             t = clock ( ) - t;
-            tempoCarregamento[i][j-1] = ((double) t) / CLOCKS_PER_SEC;
+            tempoCarregamento[j-1] += ((double) t) / CLOCKS_PER_SEC;
             if (leitura[j-1]) {
-                tempoCarregamento[i][j-1] = 0;
+                tempoCarregamento[j-1] = 0;
             }
         }
     }
-    /*
-    palavras = buscaPalavrasAleatorias (caminhosArq, qtd, &n);
 
-    for (int i = 1; i <= 5; i ++) {
-        t = clock ( );
-        buscaPalavraAnalise (E, i, palavras, n);
-        t = clock ( ) - t;
-        tempoBusca[i] = ((double) t) / CLOCKS_PER_SEC;
-        if (tempoBusca[i]) {
-            tempoBusca[i] = 0;
+    palavras = buscaPalavrasAleatorias (caminhosArq, qtd, n);
+    if (palavras != NULL) {
+        for (int i = 1; i <= 5; i ++) {
+            t = clock ( );
+            buscaPalavraAnalise (E, i, palavras, n);
+            t = clock ( ) - t;
+            tempoBusca[i] += ((double) t) / CLOCKS_PER_SEC;
         }
+
+        for (int i = 0; i < n; i ++) {
+            if (palavras[i] != NULL) {
+                free (palavras[i]);
+            }
+        }
+        free (palavras);
     }
 
-    for (int i = 0; i < n; i ++) {
-        free (palavras[i]);
-    }
-    free (palavras);
-    */
     liberaEstrutura (E, 1);
     liberaEstrutura (E, 2);
     liberaEstrutura (E, 3);
@@ -141,7 +149,16 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
 
     finalizaEstrutura (E);
 
-    //for (int i = 0; i < 5; i ++) {
-    //    printf ("%f %f\n", tempoBusca[i], tempoCarregamento[i]);
-    //}
+    printf ("NUMERO DE BUSCAS: %d\n", n);
+    printf ("                ENCADEADA   ARVORE      AVL         TRIE        HASH\n");
+    printf ("CARREGAMENTO    ");
+    for (int i = 0; i < 5; i ++) {
+        printf ("%f    ", tempoCarregamento[i]);
+    }
+    printf ("\n");
+    printf ("BUSCA           ");
+    for (int i = 0; i < 5; i ++) {
+        printf ("%f    ", tempoBusca[i]);
+    }
+    printf ("\n");
 }

@@ -6,12 +6,13 @@
 tPalavra *criaPalavra (char *palavra, int posicao, int arq) {
     tPalavra *P;
     P = (tPalavra*) malloc (sizeof (tPalavra));
-    P->palavra = (char*) malloc ((strlen (palavra) + 1) * sizeof (char));
-    strcpy (P->palavra, palavra);
+    P->palavra = (char*) malloc ((strlen (palavra) + 1) * (sizeof (char)));
     P->arq = (tArquivo*) malloc (sizeof (tArquivo));
+    strcpy (P->palavra, palavra);
     P->qtd = 1;
 
     P->arq[0].posicao = (int*) malloc (sizeof (int));
+    P->arq[0].id = arq;
     P->arq[0].posicao[0] = posicao;
     P->arq[0].ocorrencias = 1;
 
@@ -34,29 +35,25 @@ void colocaPosicao (int posicao, int arq, tPalavra *P) {
     if (P == NULL) {
         return;
     }
-    if ((arq < 1) || (arq > ((P->qtd)+1))) {
-        return;
-    }
-    if ((arq > P->qtd)) {
-        adicionaArquivo (posicao, P);
-        return;
-    }
-    else {
-        int *nova;
-        nova = (int*) malloc ((P->arq[arq-1].ocorrencias + 1) * sizeof (int));
-        for (int i = 0; i < P->arq[arq-1].ocorrencias; i ++) {
-            nova[i] = P->arq[arq-1].posicao[i];
-            printf("%d: ", arq-1);
-            printf("%d\n", nova[i]);
+    for (int i = 0; i < P->qtd; i ++) {
+        if (P->arq[i].id == arq) {
+            int *nova;
+            nova = (int*) malloc ((P->arq[i].ocorrencias + 1) * sizeof (int));
+            for (int j = 0; j < P->arq[i].ocorrencias; j ++) {
+                nova[j] = P->arq[i].posicao[j];
+            }
+            nova[P->arq[i].ocorrencias] = posicao;
+            free (P->arq[i].posicao);
+            P->arq[i].posicao = nova;
+            P->arq[i].ocorrencias ++;
+
+            return;
         }
-        nova[P->arq[arq-1].ocorrencias] = posicao;
-        free (P->arq[arq-1].posicao);
-        P->arq[arq-1].posicao = nova;
-        P->arq[arq-1].ocorrencias ++;
     }
+    adicionaArquivo (posicao, arq, P);
 }
 
-void adicionaArquivo (int posicao, tPalavra *P) {
+void adicionaArquivo (int posicao, int arq, tPalavra *P) {
     if (P == NULL) {
         return;
     }
@@ -65,20 +62,21 @@ void adicionaArquivo (int posicao, tPalavra *P) {
     for (int i = 0; i < P->qtd; i ++) {
         novo[i] = P->arq[i];
     }
+    novo[P->qtd].posicao = (int*) malloc (sizeof (int));
+    novo[P->qtd].posicao[0] = posicao;
+    novo[P->qtd].ocorrencias = 1;
+    novo[P->qtd].id = arq;
+
     free (P->arq);
     P->arq = novo;
     P->qtd ++;
-
-    P->arq[P->qtd].posicao = (int*) malloc (sizeof (int));
-    P->arq[P->qtd].posicao[0] = posicao;
-    P->arq[0].ocorrencias = 1;
 }
 
 void imprimePalavra (tPalavra *P) {
     printf ("%s ", P->palavra);
 }
 
-void imprimeBusca (tPalavra *P, char *palavra, char **arqs) {
+void imprimeBusca (tPalavra *P, char *palavra, char **arqs, int n) {
     if (P == NULL) {
         printf ("\n################################################\n");
         printf("%s", palavra);
@@ -88,17 +86,21 @@ void imprimeBusca (tPalavra *P, char *palavra, char **arqs) {
     }
     printf ("\n################################################\n");
     imprimePalavra (P);
-    for (int i = 0; i < P->qtd; i ++) {
+    for (int i = 0; i < n; i ++) {
         printf ("\n################################################\n");
-        printf ("%s\n", arqs[i]);
-        printf ("\n");
-        printf ("QUANTIDADE DE OCORRENCIAS: %d\n", P->arq[i].ocorrencias);
-        if (P->arq[i].ocorrencias > 0) {
-            printf ("POSICOES: ");
-            for (int j = 0; j < P->arq[i].ocorrencias; j ++) {
-                printf("%d ", P->arq[i].posicao[j]);
+        for (int j = 0; j < P->qtd; j ++) {
+            if (P->arq[j].id == arqs[i]) {
+                printf ("%s\n", arqs[i]);
+                printf ("\n");
+                printf ("QUANTIDADE DE OCORRENCIAS: %d\n", P->arq[i].ocorrencias);
+                if (P->arq[i].ocorrencias > 0) {
+                    printf ("POSICOES: ");
+                    for (int k = 0; k < P->arq[i].ocorrencias; k ++) {
+                        printf("%d ", P->arq[i].posicao[k]);
+                    }
+                }
+                printf ("\n\n");
             }
         }
-        printf ("\n\n");
     }
 }

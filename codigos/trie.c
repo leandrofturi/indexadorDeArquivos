@@ -98,6 +98,9 @@ tPalavra *buscaPalavraTrie (char *palavra, tTrie *T) {
     if (T == NULL) {
         return (NULL);
     }
+    if (palavra == NULL) {
+		return (NULL);
+	}
     for (int i = 0; i < R; i ++) {
         if ((*T)[i] != NULL) {
             if ((*T)[i]->P != NULL) {
