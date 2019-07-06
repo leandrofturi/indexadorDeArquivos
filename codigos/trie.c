@@ -3,6 +3,7 @@
 #include <string.h>
 #include "bibliotecas/trie.h"
 
+
 tCorpo *criaCorpo ( ) {
     tCorpo *C;
     C = (tCorpo*) malloc (sizeof (tCorpo));
@@ -49,6 +50,8 @@ void liberaTrie (tTrie *T) {
     free (T);
 }
 
+// Posicao dentro do vetor dicionario.
+// Ordem: 0 < ... < 9 < A < ... < Z < a < ... < z
 int chave (char letra) {
     if ((letra >= 'a') && (letra <= 'z')) {
         return (letra - 97 + 10 + 26);
@@ -64,6 +67,8 @@ int chave (char letra) {
     }
 }
 
+// Funcao auxiliar para fazer a seracacao das letras da palavra dentro da Trie.
+// c indica o caracter a ser desmembrado.
 void caminhaTrie (char *palavra, int posicao, int c, int arq, tTrie *T) {
     if (c == strlen (palavra)) {
         return;

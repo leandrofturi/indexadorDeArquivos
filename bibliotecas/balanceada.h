@@ -1,6 +1,8 @@
 #ifndef BALANCEADA_H
 #define BALANCEADA_H
 
+// Funcoes opacas da TAD Arvore Balanceada (AVL) implementadas recursivamente.
+
 #include "palavra.h"
 #include "arvore.h"
 

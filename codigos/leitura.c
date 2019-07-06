@@ -155,18 +155,20 @@ int buscaPalavraEstrutura (tEstruturas *E, int estrutura, char *palavra, char **
         break;
     }
     if (P != NULL) {
-        imprimeBusca (P, palavra, arqs);
+        imprimeBusca (P, palavra);
         return (1);
     }
     else {
-        imprimeBusca (P, palavra, arqs);
+        imprimeBusca (P, palavra);
         return (0);
     }
 }
 
+// Prototipo de algoritmo de busca.
+// Apos o arquivo ser passado como parametro, e perguntado ao usuario qual palavra ele deseja buscar.
+// Como resposta, e dado a palavra com suas ocorrencias.
 void buscaPalavra (char *caminhoArq) {
     char palavra[46];
-    int estrutura;
 
     printf ("Agora, digite a palavra a ser buscada: ");
     scanf (" %s", palavra);

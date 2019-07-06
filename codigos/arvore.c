@@ -8,7 +8,7 @@ tArvore *criaArvore ( ) {
     tArvore *A;
     A = (tArvore*) malloc (sizeof (tArvore));
 	if (A != NULL) {
-    	*A = NULL;
+    	(*A) = NULL;
 	}
     return (A);
 }
@@ -68,6 +68,7 @@ tPalavra *buscaPalavraArvore (char *palavra, tArvore *A) {
     }
 }
 
+// Impressao prefixa.
 void imprimeArvore (tArvore *A) {
     if ((*A) == NULL) {
         return;

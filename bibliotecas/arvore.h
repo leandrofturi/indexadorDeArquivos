@@ -1,6 +1,8 @@
 #ifndef ARVORE_H
 #define ARVORE_H
 
+// Funcoes opacas da TAD Arvore Simples implementadas recursivamente.
+
 #include "palavra.h"
 
 typedef struct tGalho tGalho;

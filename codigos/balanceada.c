@@ -26,18 +26,22 @@ void insereBalanceada (char *palavra, int posicao, int arq, tBalanceada *B) {
 void balanceamento (tBalanceada *B) {
 	if (fatorBalanceamento (B) > 1) {
 		if (fatorBalanceamento (&(*B)->esq) > 0) {
+			// Rotacao simples a direita.
 			rotacaoDir (B);
 		}
 		else {
+			// Rotacao dupla a direita.
 			rotacaoEsq (&(*B)->esq);
 			rotacaoDir (B);
 		}
 	}
 	else if (fatorBalanceamento (B) < -1) {
 		if (fatorBalanceamento (&(*B)->dir) < 0) {
+			// Rotacao simples a esquerda.
 			rotacaoEsq (B);
 		}
 		else {
+			// Rotacao dupla a esquerda.
 			rotacaoDir (&(*B)->dir);
 			rotacaoEsq (B);
 		}
@@ -73,6 +77,7 @@ void rotacaoDir (tBalanceada *B) {
 	(*B) = aux;
 }
 
+// Impressao prefixa.
 void imprimeBalanceada (tBalanceada *B) {
 	if ((*B) == NULL) {
         return;

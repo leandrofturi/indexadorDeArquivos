@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../bibliotecas/palavra.h"
 
+
 tPalavra *criaPalavra (char *palavra, int posicao, int arq) {
     tPalavra *P;
     P = (tPalavra*) malloc (sizeof (tPalavra));
@@ -76,7 +77,16 @@ void imprimePalavra (tPalavra *P) {
     printf ("%s ", P->palavra);
 }
 
-void imprimeBusca (tPalavra *P, char *palavra, char **arqs, int n) {
+// Impressao da palavra buscada pela funcao buscaPalavra (char *caminhoArq).
+// Funcao criada como diversao pelos autores do trabalho.
+void imprimeBusca (tPalavra *P, char *palavra) {
+
+    printf ("\n\n");
+    printf ("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ \n");
+    printf ("░░░░ ░░░░▀█▄▀▄▀██████░▀█▄▀▄▀████▀ \n");
+    printf ("░░░ ░░░░░░░▀█▄█▄███▀░░░▀██▄█▄█▀\n" );
+    printf ("INDEXADOR DE ARQUIVOS\n\n");
+
     if (P == NULL) {
         printf ("\n################################################\n");
         printf("%s", palavra);
@@ -86,21 +96,15 @@ void imprimeBusca (tPalavra *P, char *palavra, char **arqs, int n) {
     }
     printf ("\n################################################\n");
     imprimePalavra (P);
-    for (int i = 0; i < n; i ++) {
-        printf ("\n################################################\n");
-        for (int j = 0; j < P->qtd; j ++) {
-            if (P->arq[j].id == arqs[i]) {
-                printf ("%s\n", arqs[i]);
-                printf ("\n");
-                printf ("QUANTIDADE DE OCORRENCIAS: %d\n", P->arq[i].ocorrencias);
-                if (P->arq[i].ocorrencias > 0) {
-                    printf ("POSICOES: ");
-                    for (int k = 0; k < P->arq[i].ocorrencias; k ++) {
-                        printf("%d ", P->arq[i].posicao[k]);
-                    }
+    for (int i = 0; i < P->qtd; i ++) {
+        printf ("\n################################################\n");;
+            printf ("QUANTIDADE DE OCORRENCIAS: %d\n", P->arq[i].ocorrencias);
+            if (P->arq[i].ocorrencias > 0) {
+                printf ("POSICOES: ");
+                for (int k = 0; k < P->arq[i].ocorrencias; k ++) {
+                    printf("%d ", P->arq[i].posicao[k]);
                 }
-                printf ("\n\n");
             }
-        }
+        printf ("\n\n");
     }
 }

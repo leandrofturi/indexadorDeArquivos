@@ -38,6 +38,3 @@ $(LIX)/indexador.o: indexador.c
 clean:
 	-rm $(LIX)/*.o
 	-rm $(EXE)
-
-val:
-	valgrind --leak-check=full ./$(EXE) $(DEBUG)

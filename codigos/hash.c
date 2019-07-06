@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "bibliotecas/hash.h"
 
+// Cada elemento do dicionario aponta para outro dicionario, ainda nao alocado.
 tHash* criaHash ( ) {
 	tHash *H;
 	H = (tHash*) malloc (sizeof (tHash));
@@ -23,6 +24,7 @@ void liberaHash (tHash *H) {
 	free (H);
 }
 
+// Funcao Hash pelo Método de Horner-Sedgewick
 int hash (char *palavra) {
 	int h;
 	h = 1;

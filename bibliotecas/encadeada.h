@@ -1,6 +1,8 @@
 #ifndef ENCADEADA_H
 #define ENCADEADA_H
 
+// Funcoes opacas da TAD Lista Encadeada implementadas de forma procedural.
+
 #include "palavra.h"
 
 typedef struct tCelula tCelula;

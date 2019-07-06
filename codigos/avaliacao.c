@@ -5,6 +5,8 @@
 #include <sys/time.h>
 #include "../bibliotecas/avaliacao.h"
 
+
+// Reabertura do arquivo para buscar palavras aleatorias
 char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int n) {
     int nC, i;
     char c, palavraMax[PALAVRAMAX];
@@ -15,6 +17,11 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int n) {
     gettimeofday (&semente, NULL);
     srand ((int) (semente.tv_sec + 1000000 * semente.tv_usec));
 
+    if ((qtd < 0) || (n < 0)) {
+        return (NULL);
+    }
+
+    limpaValgrind (caminhosArq, &qtd, &n);
     encontradas = (char**) malloc (n * sizeof (char*));
     if (encontradas == NULL) {
         return (NULL);
@@ -24,8 +31,13 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int n) {
     }
 
     i = 0;
+    // A busca e realizada em todos os arquivos.
     for (int j = 0; j < qtd; j ++) {
-        arquivo = fopen (caminhosArq[i], "r");
+        arquivo = NULL;
+        arquivo = fopen (caminhosArq[j], "r");
+        if (arquivo == NULL) {
+            return (encontradas);
+        }
         nC = 0;
         while ((c = fgetc (arquivo)) != EOF) {
             if (((c >= 'a') && (c <= 'z')) ||
@@ -36,11 +48,14 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int n) {
             }
             else if (nC > 0) {
                 palavraMax[nC] = '\0';
+                // Caso ocorra uma variavel aleatoria abaixo da probabilidade esperada, ela e escolhida.
                 if (((rand ( )) % 100) < PROBABILIDADE) {
                     encontradas[i] = (char*) malloc ((nC+1) * sizeof (char));
                     strcpy (encontradas[i], palavraMax);
                     i ++;
+                    // Caso complete a quantidade de palavras.
                     if (i == n) {
+                        fclose (arquivo);
                         return (encontradas);
                     }
                 }
@@ -52,7 +67,7 @@ char **buscaPalavrasAleatorias (char **caminhosArq, int qtd, int n) {
 
     return (encontradas);
 }
-
+// Funcao sem prints.
 void buscaPalavraAnalise (tEstruturas *E, int estrutura, char **palavras, int n) {
     tPalavra *P;
     switch (estrutura) {
@@ -86,17 +101,29 @@ void buscaPalavraAnalise (tEstruturas *E, int estrutura, char **palavras, int n)
             }
         break;
     }
-    return;
+    if (P == NULL) {
+        return;
+    }
+    else {
+        return;
+    }
 }
-
+// Funcao primaria do trabalho.
 void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
+
+    printf ("\n");
+    printf ("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ \n");
+    printf ("░░░░ ░░░░▀█▄▀▄▀██████░▀█▄▀▄▀████▀ \n");
+    printf ("░░░ ░░░░░░░▀█▄█▄███▀░░░▀██▄█▄█▀\n" );
+    printf ("INDEXADOR DE ARQUIVOS\n\n");
+
     int leitura[5];
     char **palavras;
     clock_t t;
     double tempoCarregamento[5], tempoBusca[5];
     tEstruturas *E;
 
-    if (qtd < 0) {
+    if ((qtd < 0) || (n < 0)) {
         return;
     }
     for (int i = 0; i < 5; i ++) {
@@ -119,6 +146,7 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
             t = clock ( ) - t;
             tempoCarregamento[j-1] += ((double) t) / CLOCKS_PER_SEC;
             if (leitura[j-1]) {
+                // Caso ocorram erros na abertura do arquivo, o tempo de carregamento deve ser nulo.
                 tempoCarregamento[j-1] = 0;
             }
         }
@@ -161,4 +189,14 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
         printf ("%f    ", tempoBusca[i]);
     }
     printf ("\n");
+}
+
+void limpaValgrind (char **caminhos, int *qtd, int *n) {
+    for (int i = 1; i < (*qtd); i ++) {
+        if ((caminhos[i][0] >= '0') && (caminhos[i][0] <= '9')) {
+            *qtd = i;
+            *n = atoi (caminhos[i]);
+            return;
+        }
+    }
 }

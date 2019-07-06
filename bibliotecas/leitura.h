@@ -1,6 +1,8 @@
 #ifndef LEITURA_H
 #define LEITURA_H
 
+// Funcoes opacas para leitura de arquivos e agrupamento de estruturas.
+
 #include "palavra.h"
 #include "encadeada.h"
 #include "arvore.h"
@@ -8,13 +10,14 @@
 #include "trie.h"
 #include "hash.h"
 
+// Definicao de uma estrutura global.
 typedef struct tEstruturas tEstruturas;
 struct tEstruturas {
-	tEncadeada *encadeada;
-    tArvore *arvore;
-    tBalanceada *balanceada;
-	tTrie *trie;
-	tHash *hash;
+	tEncadeada *encadeada; // estrutura = 1
+    tArvore *arvore; // estrutura = 2
+    tBalanceada *balanceada; // estrutura = 3
+	tTrie *trie; // estrutura = 4
+	tHash *hash; // estrutura = 5
 
     int alocados[5];
 };

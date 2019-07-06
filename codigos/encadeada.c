@@ -3,12 +3,12 @@
 #include <string.h>
 #include "bibliotecas/encadeada.h"
 
+
 tEncadeada *criaEncadeada ( ) {
 	tEncadeada *E;
 	E = (tEncadeada*) malloc (sizeof (tEncadeada));
     E->cabeca = E->rabo = NULL;
 	E->n = 0;
-
     return (E);
 }
 
