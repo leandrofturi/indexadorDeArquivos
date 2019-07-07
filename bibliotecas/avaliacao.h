@@ -6,7 +6,7 @@
 #include "leitura.h"
 
 // Valor de probabilidade de uma determinada palavra ser escolhida para ser buscada.
-#define PROBABILIDADE 25
+#define PROBABILIDADE 10
 
 
 // Reabertura do arquivo com nova busca de palavras aletaórias.
