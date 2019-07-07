@@ -104,6 +104,7 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
     alocaEstrutura (E, 4);
     alocaEstrutura (E, 5);
 
+    printf ("Carregando arquivos...\n");
     for (int i = 0; i < qtd; i ++) {
         for (int j = 1; j <= 5; j ++) {
             t = clock ( );
@@ -117,7 +118,9 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
         }
     }
 
+    printf ("Buscando palavas aleatórias...\n");
     palavras = buscaPalavrasAleatorias (caminhosArq, qtd, n);
+    printf ("Pesquisando...\n");
     if (palavras != NULL) {
         for (int i = 1; i <= 5; i ++) {
             t = clock ( );
@@ -126,12 +129,16 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
             tempoBusca[i] += ((double) t) / CLOCKS_PER_SEC;
         }
 
+        FILE *aux;
+        aux = fopen ("PalavrasAleatorias.txt", "w");
         for (int i = 0; i < n; i ++) {
             if (palavras[i] != NULL) {
+                fprintf (aux, "%s\n", palavras[i]);
                 free (palavras[i]);
             }
         }
         free (palavras);
+        fclose (aux);
     }
 
     liberaEstrutura (E, 1);
