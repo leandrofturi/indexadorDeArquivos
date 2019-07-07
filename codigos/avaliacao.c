@@ -126,7 +126,7 @@ void avaliaDesempenho (char **caminhosArq, int qtd, int n) {
             t = clock ( );
             buscaPalavraAnalise (E, i, palavras, n);
             t = clock ( ) - t;
-            tempoBusca[i] += ((double) t) / CLOCKS_PER_SEC;
+            tempoBusca[i-1] += ((double) t) / CLOCKS_PER_SEC;
         }
 
         FILE *aux;
