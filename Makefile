@@ -38,3 +38,4 @@ $(LIX)/indexador.o: indexador.c
 clean:
 	-rm $(LIX)/*.o
 	-rm $(EXE)
+	-rm "PalavrasAleatorias.txt"

@@ -32,9 +32,9 @@ int main (int argc, char *argv[]) {
         avaliaDesempenho (caminhos, qtd, n);
     }
 
-    //if (argc > 1) {
-        //buscaPalavra (caminhos, qtd); // Funcao que funciona sozinha.
-    //}
+    if (argc > 1) {
+        buscaPalavra (caminhos, qtd); // Funcao que funciona sozinha.
+    }
     free (caminhos);
 
     return (0);
